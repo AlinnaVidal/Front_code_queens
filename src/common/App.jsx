@@ -14,11 +14,8 @@ function App() {
   }
 
   return (
-    <>
+    < div className= "body">
 
-      <p>
-          Bienvenido a Blokas                                                                                                                                                                                                                                                                                          
-      </p>
 
 
       <Navbar user={user} logout={logout} />
@@ -29,7 +26,7 @@ function App() {
 
 
 
-    </>
+    </div>
   )
 }
 
