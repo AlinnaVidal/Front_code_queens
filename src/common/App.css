@@ -42,14 +42,21 @@
 }
 
 .nav-bar {
-  background-color: #282c34;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #201C35;
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: white;
-  border-bottom: 2px solid #61dafb;
+  border-bottom: 2px solid #A9CEF4;
+  z-index: 1000;
+  box-sizing: border-box; /* para que el padding no aumente el ancho */
 }
+
 
 .nav-bar h1 {
   font-size: 1.5rem;
@@ -71,6 +78,14 @@
   font-weight: bold;
 }
 .nav-bar button:hover {
-  background-color: #61dafb;
+  background-color: #AF45ED;
   color: #282c34;
+}
+.logo-link {
+  color: white;
+  font-weight: bold;
+}
+
+.normal-link {
+  color: #A9CEF4;
 }
