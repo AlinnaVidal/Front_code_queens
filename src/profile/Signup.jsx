@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
+
 export default function Signup() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -34,39 +35,40 @@ export default function Signup() {
     }
   }
 
-  return (
-    <div>
-      <h2>Registro</h2>
-      <form onSubmit={handleSignup}>
-        <input
-          type="text"
-          placeholder="Nombre de usuario"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Correo"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={e => setAvatar(e.target.files[0])}
-          required
-        />
-        <button type="submit">Registrarse</button>
-      </form>
-    </div>
-  )
+    return (
+      <div className="signup-page">
+        <h2>Registro</h2>
+        <form onSubmit={handleSignup}>
+          <input
+            type="text"
+            placeholder="Nombre de usuario"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Correo"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={e => setAvatar(e.target.files[0])}
+            required
+          />
+          <button type="submit">Registrarse</button>
+        </form>
+      </div>
+    )
+
 }

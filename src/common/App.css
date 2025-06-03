@@ -98,8 +98,113 @@ body {
 .black_text {
   color: #5d5e5a;
   font-weight: bold;
-  size: 40;
-
-
-  
+  size: 40;  
 }
+
+.about-us {
+  color: black;
+
+}
+
+.instructions {
+  color: black;
+  margin-top: 5rem; 
+}
+
+.login-page {
+  color: #5D7BC0;
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.login-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.login-page input {
+  background-color: #f0f0f0; /*color de fondo*/
+  color: black;              /*color del texto */
+  border: 1px solid #ccc;    /*borde gris claro */
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.login-page input::placeholder {
+  color: #888; /*color del texto del placeholder */
+}
+
+.login-page input:focus {
+  outline: none;
+  border-color: #333;        /*color del borde cuando se enfoca */
+  background-color: #ffffff; /*cambia color al enfocar */
+}
+
+
+.login-page button {
+  padding: 0.6rem;
+  font-size: 1rem;
+  background-color: #cbe6ef;
+  color: #5D7BC0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-page button:hover {
+  background-color: #cbe6ef;
+}
+
+.signup-page {
+  color: #5D7BC0;
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.signup-page input[type="text"],
+.signup-page input[type="email"],
+.signup-page input[type="password"],
+.signup-page input[type="file"] {
+  background-color: #f0f0f0; /*color de fondo de los inputs */
+  color: black;              /*color del texto */
+  border: 1px solid #ccc;    /*borde */
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  display: block;
+  width: 100%;
+}
+
+.signup-page input::placeholder {
+  color: #888; /*color del texto del placeholder */
+}
+
+.signup-page input:focus {
+  outline: none;
+  border-color: #333;
+  background-color: #ffffff;
+}
+
+
+.signup-page button {
+  padding: 0.6rem;
+  font-size: 1rem;
+  background-color: #cbe6ef;
+  color: #5D7BC0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.signup-page button:hover {
+  background-color: #cbe6ef;
+}
+
+
+
+

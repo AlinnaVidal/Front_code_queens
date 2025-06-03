@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import axios from 'axios'
+import '../common/App.css'
 
 export default function Login() {
   const { setUser } = useOutletContext()  //permite pasar datos desde el padre que renderiza un Putlet
@@ -35,26 +36,26 @@ export default function Login() {
     }
   }
 
-  return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Correo"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Iniciar sesión</button>
-      </form>
-    </div>
-  )
+    return (
+      <div className="login-page">
+        <h2>Inicio de sesión</h2>
+        <form onSubmit={handleLogin}>
+          <input
+            type="email"
+            placeholder="Correo"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit">Iniciar sesión</button>
+        </form>
+      </div>
+    )
 }
