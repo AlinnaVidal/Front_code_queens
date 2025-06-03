@@ -15,10 +15,20 @@ function App() {
 
   return (
     <>
+
+      <p>
+          Bienvenido a Blokas                                                                                                                                                                                                                                                                                          
+      </p>
+
+
       <Navbar user={user} logout={logout} />
       <main>
         <Outlet context={{ user, setUser }} />
       </main>
+
+
+
+
     </>
   )
 }
