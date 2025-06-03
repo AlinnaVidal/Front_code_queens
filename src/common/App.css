@@ -1,3 +1,8 @@
+body {
+  background-color: #fcf9f4;
+
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -46,13 +51,13 @@
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #201C35;
+  background-color: #cbe6ef;
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: white;
-  border-bottom: 2px solid #A9CEF4;
+  border-bottom: 2px solid #5D7BC0;
   z-index: 1000;
   box-sizing: border-box; /* para que el padding no aumente el ancho */
 }
@@ -70,8 +75,8 @@
 
 .nav-bar button {
   background: transparent;
-  border: 1px solid #61dafb;
-  color: #61dafb;
+  border: 1px solid #5D7BC0;
+  color: #4464AD;
   padding: 0.4rem 0.8rem;
   border-radius: 5px;
   cursor: pointer;
@@ -82,10 +87,19 @@
   color: #282c34;
 }
 .logo-link {
-  color: white;
+  color: #5D7BC0;
   font-weight: bold;
 }
 
 .normal-link {
-  color: #A9CEF4;
+  color: #5D7BC0
+}
+
+.black_text {
+  color: #5d5e5a;
+  font-weight: bold;
+  size: 40;
+
+
+  
 }

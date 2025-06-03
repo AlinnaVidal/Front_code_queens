@@ -14,10 +14,10 @@ function App() {
   }
 
   return (
-    <>
+    < div className= "body">
 
-      <p>
-          Bienvenido a Blokas                                                                                                                                                                                                                                                                                          
+      <p className= "black_text">
+          ¡Bienvenido a Blokas!                                                                                                                                                                                                                                                                                      
       </p>
 
 
@@ -29,7 +29,7 @@ function App() {
 
 
 
-    </>
+    </div>
   )
 }
 
