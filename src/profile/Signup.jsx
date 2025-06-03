@@ -22,20 +22,9 @@ export default function Signup() {
 
     try {
       await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/authentications/signup`,
-        {
-          email,
-          password,
-          name_user: username,
-          user_type: userType
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-
+      `${import.meta.env.VITE_BACKEND_URL}/authentications/signup`,
+      formData
+    )
       alert('Registro exitoso. Inicia sesión.')
       navigate('/login')
 
