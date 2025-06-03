@@ -6,6 +6,7 @@ import App from './App'
 import Login from '../profile/Login'
 import Signup from '../profile/Signup'
 import AboutUs from './Nosotros'
+import LandingPage from './Root'
 
 
 function Routing() {
@@ -13,6 +14,7 @@ function Routing() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
+          <Route index element={<LandingPage />} />
           <Route path="instructions" element={<Instructions />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />

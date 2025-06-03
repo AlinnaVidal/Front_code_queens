@@ -16,9 +16,6 @@ function App() {
   return (
     < div className= "body">
 
-      <p className= "black_text">
-          ¡Bienvenido a Blokas!                                                                                                                                                                                                                                                                                      
-      </p>
 
 
       <Navbar user={user} logout={logout} />

@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 )
 
 
-export default function LandingPage() {
+export default function LandingPage2() {
   return (
     <div className="about-us"> 
       <h2>Sobre Nosotros</h2>
