@@ -10,9 +10,10 @@ export default function Navbar({ user, logout }) {
       <nav>
         <Link to="/instructions" className="normal-link">Instrucciones</Link>
         <Link to="/about" className="normal-link">Nosotros</Link>
+        <Link to="/game" className="normal-link">Partidas</Link>
+
         {user ? (
           <>
-            <Link to="/game" className="normal-link">Partida</Link>
             <a onClick={logout} className="normal-link" style={{ cursor: 'pointer' }}>Cerrar Sesión</a>          
             </>
         ) : (

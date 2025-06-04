@@ -154,7 +154,10 @@ body {
 }
 
 .login-page button:hover {
-  background-color: #cbe6ef;
+  background-color: #4866a3;
+  color: white;
+
+  transform: scale(1.05);
 }
 
 .signup-page {
@@ -200,8 +203,40 @@ body {
 }
 
 .signup-page button:hover {
-  background-color: #cbe6ef;
+  background-color: #4866a3;
+  transform: scale(1.05);
+  color: white;
+
+
 }
+
+.create-game-button {
+  background-color: #cbe6ef;
+  color: #4866a3;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.create-game-button:hover {
+  background-color: #4866a3;
+  color: white;
+  transform: scale(1.05);
+}
+
+.create-game-input {
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 250px;
+}
+
 
 
 

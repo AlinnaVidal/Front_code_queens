@@ -1,43 +1,26 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-export default function Game() {
-  const [games, setGames] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchGames() {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games`);
-        setGames(response.data);
-      } catch (error) {
-        console.error('Error al obtener las partidas:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchGames();
-  }, []);
-
-  if (loading) {
-    return <p>Cargando partidas...</p>;
-  }
+function Game() {
+  //obtenemos el usuario desde localStorage
+  const user = JSON.parse(localStorage.getItem('user'));
 
   return (
-    <div>
-      <h2>Partidas Disponibles</h2>
-      {games.length === 0 ? (
-        <p>No hay partidas disponibles.</p>
-      ) : (
-        <ul>
-          {games.map((game) => (
-            <li key={game.id}>
-              ID: {game.id} - Estado: {game.status}
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="game-menu">
+      <h2>Menú de Partidas</h2>
+      <ul>
+        {user ? (
+          <>
+            <li><Link to="/games/create">Crear Partida</Link></li>
+            <li><Link to="/games/join">Unirse a Partida</Link></li>
+            <li><Link to="/games/view">Ver Todas las Partidas</Link></li>
+          </>
+        ) : (
+          <li><Link to="/games/view">Ver Todas las Partidas</Link></li>
+        )}
+      </ul>
     </div>
   );
 }
+
+export default Game;

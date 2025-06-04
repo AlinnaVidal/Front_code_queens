@@ -1,0 +1,28 @@
+
+.wrapper {
+  width: 60%;
+  border: 2px solid #5D7BC0;
+  border-radius: 0.5em;
+  background-color: #cbe6ef;
+  margin: 40px auto; 
+  padding: 16px; 
+}
+
+ul {
+  width: 100%;
+  list-style: none;
+  padding-left: 0;
+  margin: 10;
+}
+
+div {
+  width: 100%;
+}
+
+.logo {
+  width: 60%;
+  height: 20%;
+  display: block;
+  margin: 0 auto;
+}
+
