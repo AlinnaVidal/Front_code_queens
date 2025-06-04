@@ -1,4 +1,3 @@
-// src/common/App.jsx
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Navbar from './Navbar'
@@ -11,21 +10,15 @@ function App() {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     setUser(null)
-  }
+    navigate('/login')
 
+  }
   return (
     < div className= "body">
-
-
-
       <Navbar user={user} logout={logout} />
       <main>
         <Outlet context={{ user, setUser }} />
       </main>
-
-
-
-
     </div>
   )
 }

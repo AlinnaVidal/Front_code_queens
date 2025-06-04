@@ -7,6 +7,8 @@ import Login from '../profile/Login'
 import Signup from '../profile/Signup'
 import AboutUs from './Nosotros'
 import LandingPage from './Root'
+import Game from '../game/Game'
+
 
 
 function Routing() {
@@ -19,8 +21,9 @@ function Routing() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="about" element={<AboutUs />} />
+          <Route path="game" element={<Game />} />
 
-          
+  
         </Route>
       </Routes>
     </BrowserRouter>

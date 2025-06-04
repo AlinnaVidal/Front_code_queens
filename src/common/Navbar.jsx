@@ -13,8 +13,8 @@ export default function Navbar({ user, logout }) {
         {user ? (
           <>
             <Link to="/game" className="normal-link">Partida</Link>
-            <button onClick={logout}>Cerrar sesión</button>
-          </>
+            <a onClick={logout} className="normal-link" style={{ cursor: 'pointer' }}>Cerrar Sesión</a>          
+            </>
         ) : (
           <>
             <Link to="/login" className="normal-link">Inicio Sesión</Link>
