@@ -1,4 +1,3 @@
-// src/components/ViewGames.jsx
 import React, { useEffect, useState } from 'react';
 
 function ViewGames() {
