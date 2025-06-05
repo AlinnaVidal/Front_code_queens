@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import pieceImage from '../assets/tablero/pixil-layer-8.png'; 
 
 
+
 function StartGame() {
   const { gameId } = useParams();
 

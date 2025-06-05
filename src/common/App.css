@@ -237,6 +237,35 @@ body {
   width: 250px;
 }
 
+.parent-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  height: 100vh;           
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  line-height: 0;
+}
+
+
+.row {
+  display: flex;
+}
+
+.cell {
+  width: 30px;       
+  height: 30px;     
+  image-rendering: pixelated; 
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: block;
+}
+
+
 
 
 
