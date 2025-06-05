@@ -21,35 +21,32 @@ import img_logo from '../assets/logo.png';
 
   return (
     
-    <div className="about-us"> 
+<div class="container">
+  <div class="floating-icon uno">✨</div>
+  <div class="floating-icon dos">🎮</div>
+  <div class="floating-icon tres">✨</div>
+  <div class="floating-icon cuatro">👾</div>
+  <div class="floating-icon cinco">✨</div>
+  <div class="floating-icon seis">✨</div>
+  <div class="floating-icon siete">✨</div>
+  <div class="floating-icon ocho">🎲</div>
+  <div class="floating-icon nueve">🕹️</div>
+  <div class="floating-icon diez">🧩</div>
+  
 
-      <img src={img_logo} alt="Logo de Blokas" className="logo" />
+
+  <div >
+    <img src={img_logo} alt="Logo de Blokas" className="logo" />
+    <p className= "black_text">
+        ¡Bienvenido a Blokas!                                                                                                                                                                                                                                                                                      
+    </p>
+    <p className= "black_text">
+        Registrate o inicia sesión para jugar                                                                                                                                                                                                                                                                                      
+    </p>
+  </div>
 
 
-      <p className= "black_text">
-          ¡Bienvenido a Blokas!                                                                                                                                                                                                                                                                                      
-      </p>
 
-      <p className= "black_text">
-          Registrate o inicia sesión para jugar                                                                                                                                                                                                                                                                                      
-      </p>
-
-      <p className= "black_text">
-
-          Puedes ver las siguientes partidas:                                                                                                                                                                                                                                                                                    
-      </p>
-
-      <ul>
-      {games.length === 0 ? (
-        <li>No hay partidas </li>
-      ) : (
-        games.map((game) => (
-          <li className="wrapper" key={game.id}>
-            <p> Nombre: {game.name || JSON.stringify(game)} &nbsp;&nbsp;&nbsp;&nbsp; Estado: {game.state}</p>
-          </li>
-        ))
-      )}
-    </ul>
 
 
 

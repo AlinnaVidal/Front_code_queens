@@ -26,3 +26,38 @@ div {
   margin: 0 auto;
 }
 
+.container {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+
+
+
+.floating-icon {
+  position: absolute;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  opacity: 0.8;
+  pointer-events: none;
+  animation: float 6s ease-in-out infinite;
+}
+
+.uno   { top: 10%; left: 50%; animation-delay: 0s; }
+.dos   { top: 20%; right: 55%; animation-delay: 1s; }
+.tres  { bottom: 25%; left: 58%; animation-delay: 2s; }
+.cuatro{ bottom: 22%; left: 40%; animation-delay: 0s; }
+.cinco{ bottom: 30%; right: 45%; animation-delay: 1s; }
+.seis{ top: 32%; left: 56%; animation-delay: 2s; }
+.siete{ top: 70%; right: 61%; animation-delay: 3s; }
+.ocho{ bottom: 60%; left: 43%; animation-delay: 0s; }
+.nueve{ top: 40%; right: 37%; animation-delay: 1s; }
+.diez{ bottom: 80%; right: 44%; animation-delay: 2s; }
+
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
