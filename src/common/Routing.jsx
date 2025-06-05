@@ -11,8 +11,7 @@ import Game from '../game/Game'
 import CreateGame from '../game/CreateGame'
 import JoinGame from '../game/JoinGame'
 import ViewGames from '../game/ViewGames'
-
-
+import StartGame from '../game/StartGame'
 
 
 function Routing() {
@@ -25,10 +24,11 @@ function Routing() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="about" element={<AboutUs />} />
-          <Route path="/game" element={<Game />} />
-          <Route path="/games/create" element={<CreateGame />} />
-          <Route path="/games/join" element={<JoinGame />} />
-          <Route path="/games/view" element={<ViewGames />} />
+          <Route path="game" element={<Game />} />
+          <Route path="games/create" element={<CreateGame />} />
+          <Route path="games/join" element={<JoinGame />} />
+          <Route path="games/view" element={<ViewGames />} />
+          <Route path="games/:gameId" element={<StartGame />} />
   
         </Route>
       </Routes>

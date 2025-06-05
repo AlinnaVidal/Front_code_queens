@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function JoinGame() {
   const [games, setGames] = useState([]);
+  const [joinedGames, setJoinedGames] = useState([]);
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem('user'));
 
@@ -12,6 +15,9 @@ function JoinGame() {
       .then(data => {
         const waitingGames = data.filter(game => game.state === 'waiting');
         setGames(waitingGames);
+
+        const stored = JSON.parse(localStorage.getItem('joinedGames')) || [];
+        setJoinedGames(stored);
       })
       .catch(err => console.error('Error al obtener partidas:', err));
   }, []);
@@ -29,6 +35,10 @@ function JoinGame() {
 
       if (response.status === 201) {
         setMessage('¡Te uniste a la partida!');
+        const updatedJoined = [...joinedGames, gameId];
+        setJoinedGames(updatedJoined);
+        localStorage.setItem('joinedGames', JSON.stringify(updatedJoined));
+        navigate(`/games/${gameId}`);
       } else {
         const data = await response.json();
         setMessage(`Error: ${data.error || 'No se pudo unir a la partida'}`);
@@ -37,6 +47,10 @@ function JoinGame() {
       console.error(err);
       setMessage('Error al conectar con el servidor');
     }
+  };
+
+  const handleReturn = (gameId) => {
+    navigate(`/games/${gameId}`);
   };
 
   return (
@@ -50,8 +64,15 @@ function JoinGame() {
           games.map((game) => (
             <li key={game.id}>
               {game.name} - Estado: {game.state}
-              <button onClick={() => handleJoin(game.id)} style={{ marginLeft: '1em' }}>
-                Unirse
+              <button
+                onClick={() =>
+                  joinedGames.includes(game.id)
+                    ? handleReturn(game.id)
+                    : handleJoin(game.id)
+                }
+                style={{ marginLeft: '1em' }}
+              >
+                {joinedGames.includes(game.id) ? 'Volver a la partida' : 'Unirse'}
               </button>
             </li>
           ))
