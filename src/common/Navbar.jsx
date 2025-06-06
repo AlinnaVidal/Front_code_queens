@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom'
 import './App.css'
+import { useContext } from 'react';
+import { AuthContext } from '../auth/AuthContext';
 
 export default function Navbar({ user, logout }) {
+  const { token } = useContext(AuthContext);
+
   return (
     <header className="nav-bar">
       <h1>
@@ -11,6 +15,7 @@ export default function Navbar({ user, logout }) {
         <Link to="/instructions" className="normal-link">Instrucciones</Link>
         <Link to="/about" className="normal-link">Nosotros</Link>
         <Link to="/game" className="normal-link">Partidas</Link>
+        <Link to="/users">Ver información de usuario</Link>
 
         {user ? (
           <>
