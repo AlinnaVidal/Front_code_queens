@@ -266,6 +266,86 @@ body {
   display: block;
 }
 
+.view-games-container {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.view-games-title {
+  color: #4464AD;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.games-list {
+  list-style: none;
+  padding: 0;
+}
+
+.no-games {
+  color: #888;
+  font-style: italic;
+}
+
+.game-item {
+  color: #333;
+  font-weight: 500;
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.game-name {
+  color: #5D7BC0;
+  font-weight: bold;
+}
+
+.game-state {
+  color: #AF45ED;
+}
+
+.join-game-container {
+  color: #5D7BC0; /* un azul suave */
+  font-size: 1.2rem;
+  margin-top: 3rem;
+}
+
+.join-game-message {
+  color: #AF45ED; /* púrpura */
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.join-game-list {
+  list-style: none;
+  padding: 0;
+}
+
+.join-game-item {
+  margin: 0.5rem 0;
+}
+
+.join-game-button {
+  margin-left: 1rem;
+  background-color: #cbe6ef;
+  color: #4464AD;
+  border: none;
+  border-radius: 5px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.join-game-button:hover {
+  background-color: #4866a3;
+  color: white;
+  transform: scale(1.05);
+}
+
+
+
+
+
+
 
 
 
