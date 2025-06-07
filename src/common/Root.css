@@ -20,10 +20,13 @@ div {
 }
 
 .logo {
-  width: 60%;
-  height: 20%;
+  display: block;
+  width:100%;
+  height: 80%;
   display: block;
   margin: 0 auto;
+  justify-content: center; 
+  align-items: center;  
 }
 
 .container {
@@ -37,23 +40,25 @@ div {
 
 
 .floating-icon {
-  position: absolute;
   font-size: clamp(1.5rem, 4vw, 2.5rem);
   opacity: 0.8;
   pointer-events: none;
-  animation: float 6s ease-in-out infinite;
+  animation: float 10s ease-in-out infinite;
 }
 
-.uno   { top: 10%; left: 50%; animation-delay: 0s; }
-.dos   { top: 20%; right: 55%; animation-delay: 1s; }
-.tres  { bottom: 25%; left: 58%; animation-delay: 2s; }
-.cuatro{ bottom: 22%; left: 40%; animation-delay: 0s; }
-.cinco{ bottom: 30%; right: 45%; animation-delay: 1s; }
-.seis{ top: 32%; left: 56%; animation-delay: 2s; }
-.siete{ top: 70%; right: 61%; animation-delay: 3s; }
-.ocho{ bottom: 60%; left: 43%; animation-delay: 0s; }
-.nueve{ top: 40%; right: 37%; animation-delay: 1s; }
-.diez{ bottom: 80%; right: 44%; animation-delay: 2s; }
+.uno   {  animation-delay: 0s;
+  margin-left: 5px; 
+ }
+.dos   {  animation-delay: 0s;
+margin-right: 5px; }
+.tres  {animation-delay: 2s; }
+.cuatro{ animation-delay: 0s; }
+.cinco{ animation-delay: 1s; }
+.seis{  animation-delay: 2s; }
+.siete{  animation-delay: 3s; }
+.ocho{  animation-delay: 0s; }
+.nueve{ animation-delay: 1s; }
+.diez{ animation-delay: 2s; }
 
 
 @keyframes float {

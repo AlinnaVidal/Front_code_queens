@@ -26,6 +26,9 @@ export default function Navbar({ user, logout }) {
             <Link to="/signup" className="normal-link">Registro</Link>
           </>
         )}
+
+
+        
       </nav>
     </header>
   )
