@@ -66,3 +66,18 @@ margin-right: 5px; }
   50%      { transform: translateY(-10px); }
 }
 
+
+.button {
+  background-color: #1c2351; /* https://www.w3schools.com/css/css3_buttons.asp*/
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px
+}
+
+.button:hover {background-color: #fe7a76;
+color: #1c2351}

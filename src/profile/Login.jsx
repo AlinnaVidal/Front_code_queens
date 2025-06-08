@@ -5,7 +5,8 @@ import '../common/App.css'
 import { AuthContext } from '../auth/AuthContext'
 
 export default function Login() {
-  const { setUser } = useOutletContext() 
+  const { setUser } = useContext(AuthContext);
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
@@ -29,6 +30,7 @@ export default function Login() {
       const access_token = response.data.access_token;
       const user = response.data.user;
       setToken(access_token);
+      localStorage.setItem('token', access_token);
       localStorage.setItem('user', JSON.stringify(user))
       setUser(user)
       navigate('/')

@@ -1,0 +1,73 @@
+import { useState, useEffect, useContext } from 'react';
+import '../common/App.css'
+import '../common/Root.css'
+import { Link } from 'react-router-dom'
+import { AuthContext } from '../auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+export default function AdminPlayers() {
+  const [players, setPlayers] = useState([]);
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+  const { token } = useContext(AuthContext);
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    if (!token) return;
+
+    //verificamso que el token JWT sea valido
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/players`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }) .then(res => {
+    setPlayers(res.data); 
+  })
+    .catch(err => {
+      console.error('Token inválido o expirado:', err);
+      setMessage('No estás logueado o el token expiró');
+    });
+  }, [token]);
+
+  const FunRemove = (id) => {
+    const { user } = useContext(AuthContext);  
+    if (!user?.isAdmin) {
+    alert("No tienes permisos para eliminar.");
+    return;
+  }
+
+    if (window.confirm("¿Quieres eliminarlo?")) {
+      fetch(`http://localhost:3000/users/${id}`, { method: "DELETE",      
+         headers: {Authorization: `Bearer ${token}`,"Content-Type": "application/json" } })
+        .then(() => {
+          setPlayers(prev => prev.filter(player => player.id !== id));
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }
+  };
+
+
+  return (
+    <div className="about-us"> 
+
+    <ul className="join-game-list">
+        {players.length === 0 ? (
+          <li className="no-games">No hay usuarios</li>
+        ) : (
+          players.map((player) => (
+              <li className="player" key={player.id}>
+              <span className="user-id"> user id: {player.user_id}</span>&nbsp;&nbsp; - &nbsp;&nbsp;
+              <span className="user-id"> color: {player.color}</span>
+              <button onClick={() => { FunRemove(player.id) }}>Borrar</button>
+            </li>
+          ))
+        )}
+      </ul>
+
+
+    </div>
+  )
+}

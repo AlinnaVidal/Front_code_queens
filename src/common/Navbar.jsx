@@ -9,7 +9,7 @@ export default function Navbar({ user, logout }) {
   return (
     <header className="nav-bar">
       <h1>
-        <Link to="/" className="logo-link">🧩 Blokas</Link>
+        <Link to="/" className="logo-link">Blokas</Link>
       </h1>
       <nav>
         <Link to="/instructions" className="normal-link">Instrucciones</Link>

@@ -58,7 +58,7 @@ body {
   justify-content: space-between;
   align-items: center;
   color: white;
-  border-bottom: 2px solid #5D7BC0;
+  border-bottom: 2px solid #1c2351;
   z-index: 1000;
   box-sizing: border-box; /* para que el padding no aumente el ancho */
 }
@@ -75,7 +75,7 @@ body {
 
 .nav-bar button {
   background: transparent;
-  border: 1px solid #5D7BC0;
+  border: 1px solid #1c2351;
   color: #4464AD;
   padding: 0.4rem 0.8rem;
   border-radius: 5px;
@@ -87,12 +87,12 @@ body {
   color: #282c34;
 }
 .logo-link {
-  color: #5D7BC0;
+  color: #1c2351;
   font-weight: bold;
 }
 
 .normal-link {
-  color: #5D7BC0
+  color: #1c2351
 }
 
 .black_text {
@@ -112,7 +112,7 @@ body {
 }
 
 .login-page {
-  color: #5D7BC0;
+  color: #1c2351;
   text-align: center;
   margin-top: 5rem;
 }
@@ -148,7 +148,7 @@ body {
   padding: 0.6rem;
   font-size: 1rem;
   background-color: #cbe6ef;
-  color: #5D7BC0;
+  color: #1c2351;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -162,7 +162,7 @@ body {
 }
 
 .signup-page {
-  color: #5D7BC0;
+  color: #1c2351;
   text-align: center;
   margin-top: 5rem;
 }
@@ -197,7 +197,7 @@ body {
   padding: 0.6rem;
   font-size: 1rem;
   background-color: #cbe6ef;
-  color: #5D7BC0;
+  color: #1c2351;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -295,7 +295,7 @@ body {
 }
 
 .game-name {
-  color: #5D7BC0;
+  color: #1c2351;
   font-weight: bold;
 }
 
@@ -304,7 +304,7 @@ body {
 }
 
 .join-game-container {
-  color: #5D7BC0; /* un azul suave */
+  color: #1c2351; /* un azul suave */
   font-size: 1.2rem;
   margin-top: 3rem;
 }

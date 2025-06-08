@@ -12,6 +12,11 @@ import JoinGame from '../game/JoinGame'
 import ViewGames from '../game/ViewGames'
 import StartGame from '../game/StartGame'
 import UserCheck from '../protected/UserCheck'
+import AdminPage from '../admin/AdminPage';
+import AdminUsers from '../admin/AdminUsers';
+import AdminGames from '../admin/AdminGames';
+import AdminPlayers from '../admin/AdminPlayers';
+
 
 
 function Routing() {
@@ -30,6 +35,10 @@ function Routing() {
           <Route path="games/view" element={<ViewGames />} />
           <Route path="games/:gameId" element={<StartGame />} />
           <Route path="users" element={<UserCheck />} />
+          <Route path="admin" element={<AdminPage />} />
+          <Route path="admingames" element={<AdminGames />} />
+          <Route path="adminplayers" element={<AdminPlayers />} />
+          <Route path="Adminusers" element={<AdminUsers />} />
 
   
         </Route>

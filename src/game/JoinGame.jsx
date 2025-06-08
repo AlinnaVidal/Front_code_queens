@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../auth/AuthContext';
 
+
 function JoinGame() {
   const [games, setGames] = useState([]);
   const [joinedGames, setJoinedGames] = useState([]);

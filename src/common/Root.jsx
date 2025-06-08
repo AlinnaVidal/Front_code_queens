@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Outlet } from 'react-router-dom'
 import Navbar from './Navbar'
 import './App.css'
 import './Root.css'
+import { AuthContext } from '../auth/AuthContext';
 import img_logo from '../assets/logo.png';
+import { Link } from 'react-router-dom'
 
  function LandingPage() {
 
   const [games, setGames] = useState([]);
-
+  const { user } = useContext(AuthContext);  
 
    useEffect(() => {
   fetch(`${import.meta.env.VITE_BACKEND_URL}/games`)
@@ -35,6 +37,12 @@ import img_logo from '../assets/logo.png';
     </p>
     <div class="floating-icon dos">🎮👾</div>
   </div>
+
+    {user?.user_type === 'admin' && (
+      <Link className="button" to="/admin">
+        Abrir panel de control de administrador
+      </Link>
+    )}
 
 
 
