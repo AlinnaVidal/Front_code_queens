@@ -4,8 +4,7 @@ import Navbar from './Navbar'
 import { AuthContext } from '../auth/AuthContext'
 
 function App() {
-  const { token, setToken } = useContext(AuthContext)
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null)
+  const { token, setToken, user, setUser } = useContext(AuthContext);
   const navigate = useNavigate()
 
   function logout() {

@@ -11,7 +11,7 @@ export default function AdminGames() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
-  const user = JSON.parse(localStorage.getItem('user'));
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     if (!token) return;
@@ -31,9 +31,10 @@ export default function AdminGames() {
   }, [token]);
 
   const FunRemove = (id) => {
-    if (!user?.isAdmin) {
+    if (user?.user_type !== 'admin') {
       alert("No tienes permisos para eliminar.");
-    return;}
+      return;
+    }
     if (window.confirm("¿Quieres eliminarlo?")) {
       fetch(`http://localhost:3000/users/${id}`, { method: "DELETE",      
          headers: {Authorization: `Bearer ${token}`,"Content-Type": "application/json" } })

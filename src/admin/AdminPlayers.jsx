@@ -6,12 +6,13 @@ import { AuthContext } from '../auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 export default function AdminPlayers() {
   const [players, setPlayers] = useState([]);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
-  const user = JSON.parse(localStorage.getItem('user'));
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     if (!token) return;
@@ -31,11 +32,10 @@ export default function AdminPlayers() {
   }, [token]);
 
   const FunRemove = (id) => {
-    const { user } = useContext(AuthContext);  
-    if (!user?.isAdmin) {
-    alert("No tienes permisos para eliminar.");
-    return;
-  }
+    if (user?.user_type !== 'admin') {
+      alert("No tienes permisos para eliminar.");
+      return;
+    }
 
     if (window.confirm("¿Quieres eliminarlo?")) {
       fetch(`http://localhost:3000/users/${id}`, { method: "DELETE",      

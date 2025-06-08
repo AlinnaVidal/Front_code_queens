@@ -3,8 +3,12 @@ import './App.css'
 import { useContext } from 'react';
 import { AuthContext } from '../auth/AuthContext';
 
-export default function Navbar({ user, logout }) {
+
+
+export default function Navbar({ logout }) {
   const { token } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+
 
   return (
     <header className="nav-bar">
@@ -18,7 +22,8 @@ export default function Navbar({ user, logout }) {
 
         {user ? (
           <>
-            <a onClick={logout} className="normal-link" style={{ cursor: 'pointer' }}>Cerrar Sesión</a>          
+            <a onClick={logout
+            } className="normal-link" style={{ cursor: 'pointer' }}>Cerrar Sesión</a>          
             </>
         ) : (
           <>

@@ -30,8 +30,6 @@ export default function Login() {
       const access_token = response.data.access_token;
       const user = response.data.user;
       setToken(access_token);
-      localStorage.setItem('token', access_token);
-      localStorage.setItem('user', JSON.stringify(user))
       setUser(user)
       navigate('/')
 
