@@ -165,33 +165,54 @@ body {
   color: #1c2351;
   text-align: center;
   margin-top: 5rem;
+  padding: 1rem;
+}
+
+.signup-page form {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #fdfdfd;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .signup-page input[type="text"],
 .signup-page input[type="email"],
 .signup-page input[type="password"],
-.signup-page input[type="file"] {
-  background-color: #f0f0f0; /*color de fondo de los inputs */
-  color: black;              /*color del texto */
-  border: 1px solid #ccc;    /*borde */
+.signup-page input[type="file"],
+.signup-page .signup-select {
+  background-color: #f0f0f0;
+  color: black;
+  border: 1px solid #ccc;
   border-radius: 4px;
   padding: 0.5rem;
   font-size: 1rem;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   display: block;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .signup-page input::placeholder {
-  color: #888; /*color del texto del placeholder */
+  color: #888;
 }
 
-.signup-page input:focus {
+.signup-page input:focus,
+.signup-page .signup-select:focus {
   outline: none;
   border-color: #333;
   background-color: #ffffff;
 }
 
+.signup-select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23333" d="M2 0L0 2h4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.65rem auto;
+  padding-right: 2rem;
+}
 
 .signup-page button {
   padding: 0.6rem;
@@ -201,14 +222,20 @@ body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease-in-out;
 }
 
 .signup-page button:hover {
   background-color: #4866a3;
   transform: scale(1.05);
   color: white;
+}
 
-
+@media (max-width: 480px) {
+  .signup-page form {
+    padding: 1rem;
+  }
 }
 
 .create-game-button {

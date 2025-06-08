@@ -10,6 +10,8 @@ function JoinGame() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
+  const isInAnyGame = () => joinedGames.length > 0;
+
 
   const user = JSON.parse(localStorage.getItem('user'));
 
@@ -52,6 +54,11 @@ function JoinGame() {
       return;
     }
 
+    if (isInAnyGame()) {
+      setMessage('Ya estás en una partida. No puedes unirte a otra al mismo tiempo.');
+      return;
+    }
+
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/mechanics/add-player/${user.id}/${gameId}`,
@@ -77,6 +84,7 @@ function JoinGame() {
     }
   };
 
+
   const handleReturn = (gameId) => {
     navigate(`/games/${gameId}`);
   };
@@ -101,7 +109,7 @@ function JoinGame() {
                     : handleJoin(game.id)
                 }
               >
-                {joinedGames.includes(game.id) ? 'Volver a la partida' : 'Unirse'}
+                {joinedGames.includes(game.id) ? 'Ir a la partida' : 'Unirse'}
               </button>
             </li>
           ))

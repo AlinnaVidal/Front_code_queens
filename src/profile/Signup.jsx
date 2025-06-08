@@ -53,6 +53,15 @@ export default function Signup() {
             onChange={e => setEmail(e.target.value)}
             required
           />
+          <select
+            className="signup-select"
+            value={userType}
+            onChange={e => setUserType(e.target.value)}
+            required
+          >
+            <option value="player">Jugador</option>
+            <option value="admin">Administrador</option>
+          </select>
           <input
             type="password"
             placeholder="Contraseña"

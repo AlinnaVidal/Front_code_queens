@@ -10,6 +10,7 @@ function CreateGame() {
   const userId = user ? parseInt(user.id) : null;
 
   const handleCreateGame = async () => {
+
     if (!name || !maxPlayers) {
       setMessage('Por favor completa todos los campos');
       return;
@@ -38,10 +39,16 @@ function CreateGame() {
       );
 
       if (response.status === 201) {
+        const createdGame = await response.json(); 
+        const joined = JSON.parse(localStorage.getItem('joinedGames')) || [];
+        const updatedJoined = [...joined, createdGame.id];
+        localStorage.setItem('joinedGames', JSON.stringify(updatedJoined));
+
         setMessage('¡Partida creada exitosamente!');
         setName('');
         setMaxPlayers('');
-      } else {
+      }
+      else {
         const data = await response.json();
         setMessage(`Error: ${data.error || 'No se pudo crear la partida'}`);
       }
