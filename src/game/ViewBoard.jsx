@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { promises as fs } from 'fs'
-import path from 'path'
+
 import blueB from '../assets/tablero/bloque_azul.png'
 import orangeB from '../assets/tablero/bloque_naranja.png'
 import greenB from '../assets/tablero/bloque_verde.png'
@@ -41,12 +40,8 @@ function setCellColor(color){
 
 
 
-function Board(board){
-    const { gameId } = useParams();
+function Board(gameId){
     const [board, setBoard] = useState([]);
-
-    const user = JSON.parse(localStorage.getItem('user'));
-    const userId = user ? parseInt(user.id) : null;
     
     useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/view/${gameId}`)
@@ -74,48 +69,54 @@ function Board(board){
 
 }
 
-const PiecesContainer = async () => {
+
+
+function PiecesContainer(gameId){
+    const [id, setId] = useState(0);
     const [color, setColor] = useState('');
     const [pieces, setPieces] = useState([]);
 
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? parseInt(user.id) : null;
+
+    function setAtt(player){
+        setId(player.id)
+        setColor(player.color)
+    }
+
+    // Seteo el color y las piezas disponibles del jugador
      useEffect(() => {
         fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`)
             .then(res => res.json())
-            .then(data => setColor(setColor(data['player'].color)))
+            .then(data => 
+                    {   
+                        setId(data.id);
+                        setColor(data.color);
+                        fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/pieces/${id}`)
+                            .then(res => res.json())
+                            .then(data => setPieces(data['pieces']))
+                            .catch(err => console.error('Error al obtener piezas:', err));
+                    })
             .catch(err => console.error('Error al obtener jugadores:', err));
-
-        // SET AVAILABLE PIECES!!
-        fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`)
-            .then(res => res.json())
-            .then(data => setColor(setColor(data['player'])))
-            .catch(err => console.error('Error al obtener jugadores:', err));
-
     }, []);
 
-    const imageDirectory = path.join(process.cwd(), `/src/assets/piezas/${color}`);
-    const imageFilenames = await fs.readdir(imageDirectory)
-    console.log(imageFilenames)
-
     return(
-        <div className={container}>
-
-            // Definir vista imagen
-            {imageFilenames.map((el) => <img src={`../assets/piezas/${el}`} />)}
+        <div>
+            {pieces.map((el, num) => <img key={num} src={`../assets/piezas/${color}/${el}.png`} />)}
         </div>
     )
 }
 
 
 function ViewBoard(){
-    
+    const { gameId } = useParams();
 
     return (
         <div>
-            PiecesContainer({color})
-            Board()
+            {PiecesContainer(gameId)}
+            {Board(gameId)}
         </div>
     )
-        
 }
 
 
