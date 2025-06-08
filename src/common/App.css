@@ -368,6 +368,40 @@ body {
   transform: scale(1.05);
 }
 
+.about-us {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  color: #1c2351;
+}
+
+.integrantes-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: nowrap;
+  margin-top: 1rem;
+}
+
+.integrante {
+  text-align: center;
+}
+
+.integrante img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: none;
+  box-shadow: none;
+}
+
+.integrante p {
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+
 
 
 
