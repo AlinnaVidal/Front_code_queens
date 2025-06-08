@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import pieceImage from '../assets/tablero/bloque_tablero.png'; 
 
-
-
 function StartGame() {
   const { gameId } = useParams();
 
@@ -22,7 +20,7 @@ function StartGame() {
             {[...Array(boardSize)].map((_, col) => (
               <img
                 key={`${row}-${col}`}
-                src={'../assets/tablero/bloque_tablero.png'}
+                src={pieceImage}
                 alt="pieza"
                 className="cell"
               />

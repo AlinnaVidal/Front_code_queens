@@ -12,6 +12,7 @@ import CreateGame from '../game/CreateGame'
 import JoinGame from '../game/JoinGame'
 import ViewGames from '../game/ViewGames'
 import StartGame from '../game/StartGame'
+import ViewBoard from '../game/ViewBoard'
 
 
 function Routing() {
@@ -29,6 +30,7 @@ function Routing() {
           <Route path="games/join" element={<JoinGame />} />
           <Route path="games/view" element={<ViewGames />} />
           <Route path="games/:gameId" element={<StartGame />} />
+          <Route path="view/:gameId" element={<ViewBoard />} />
   
         </Route>
       </Routes>

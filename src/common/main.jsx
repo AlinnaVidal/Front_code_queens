@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 export default function LandingPage2() {
   return (
     <div className="about-us"> 
-      <h2>Sobre Nosotros</h2>
+      <h2>Sobre Nosotras</h2>
       
       <p>
         Somos un equipo de estudiantes de Ingeniería en Computación desarrollando el juego web Blokas como parte del curso de Tecnología y Aplicaciones Web.
