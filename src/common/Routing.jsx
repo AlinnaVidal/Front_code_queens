@@ -17,6 +17,7 @@ import AdminUsers from '../admin/AdminUsers';
 import AdminGames from '../admin/AdminGames';
 import AdminPlayers from '../admin/AdminPlayers';
 
+import ViewBoard from '../game/ViewBoard'
 
 
 function Routing() {
@@ -40,6 +41,7 @@ function Routing() {
           <Route path="adminplayers" element={<AdminPlayers />} />
           <Route path="Adminusers" element={<AdminUsers />} />
 
+          <Route path="view/:gameId" element={<ViewBoard />} />
   
         </Route>
       </Routes>

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import pieceImage from '../assets/tablero/pixil-layer-8.png';
+import pieceImage from '../assets/tablero/bloque_tablero.png'; 
+
+
 
 function StartGame() {
   const { gameId } = useParams();
