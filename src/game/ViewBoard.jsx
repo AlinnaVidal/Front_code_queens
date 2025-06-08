@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy } from 'react';
 import { useParams } from 'react-router-dom';
 
 import blueB from '../assets/tablero/bloque_azul.png'
@@ -69,7 +69,7 @@ function Board(gameId){
 
 }
 
-
+/* 
 
 function PiecesContainer(gameId){
     const [id, setId] = useState(0);
@@ -78,11 +78,6 @@ function PiecesContainer(gameId){
 
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user ? parseInt(user.id) : null;
-
-    function setAtt(player){
-        setId(player.id)
-        setColor(player.color)
-    }
 
     // Seteo el color y las piezas disponibles del jugador
      useEffect(() => {
@@ -102,18 +97,29 @@ function PiecesContainer(gameId){
 
     return(
         <div>
-            {pieces.map((el, num) => <img key={num} src={`../assets/piezas/${color}/${el}.png`} />)}
+            {pieces.map((el) => Piece(el, color))}
         </div>
     )
 }
 
 
+function Piece(name, color){
+    const [image, setImage] = useState()
+
+    useEffect( () => {
+        import(`../assets/piezas/${color}/${name}.png`).then(setImage)
+    })
+
+    return <img src={image} />
+}
+
+
+*/
 function ViewBoard(){
     const { gameId } = useParams();
 
     return (
         <div>
-            {PiecesContainer(gameId)}
             {Board(gameId)}
         </div>
     )
