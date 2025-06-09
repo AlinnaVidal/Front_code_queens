@@ -1,5 +1,6 @@
 import { useEffect, useState, lazy } from 'react';
 import { useParams } from 'react-router-dom';
+import './Board.css'
 
 // CASILLAS
 import blueB from '../assets/tablero/bloque_azul.png'
@@ -115,8 +116,8 @@ function PiecesContainer(gameId){
     }, []);
 
     return(
-        <div>
-            {pieces.map((el, num) => <img key={num} src={setPiece(color, el)}/>)}
+        <div className='pieces-container'>
+            {pieces.map((el, num) => <img class='piece' key={num} src={setPiece(color, el)}/>)}
         </div>
     )
 }
@@ -125,9 +126,9 @@ function ViewBoard(){
     const { gameId } = useParams();
 
     return (
-        <div>
-            {PiecesContainer(gameId)}
+        <div className='view-display'>
             {Board(gameId)}
+            {PiecesContainer(gameId)}
         </div>
     )
 }
