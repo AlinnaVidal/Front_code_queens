@@ -8,5 +8,20 @@
 .board-row{
     display: flex;
     flex-direction: row;
+}
 
+.view-display{
+    display: flex;
+    flex-direction: row;
+}
+
+.pieces-container{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.piece{
+    height: 80px;
+    width: 80px;
 }
