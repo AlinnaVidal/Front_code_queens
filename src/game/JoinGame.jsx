@@ -133,9 +133,15 @@ const handleReturn = async (gameId) => {
 
       {gamesJoinedIds.length > 0 && (
         <div style={{ marginBottom: '1rem' }}>
-         
+          <button
+            className="return-to-game-button"
+            onClick={() => handleReturn(gamesJoinedIds[0])}
+          >
+            Volver a mi partida
+          </button>
         </div>
       )}
+
 
       {message && <p className="join-game-message">{message}</p>}
 
