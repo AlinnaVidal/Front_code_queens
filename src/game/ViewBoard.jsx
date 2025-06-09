@@ -50,9 +50,26 @@ function setCellColor(color){
     }
 }
 
+function getWidth(name){
+    if (name == "1"){
+        return 1
+    }
+    else if (name == "2" || name == "3B" || name == "4D" || name == "5I")
+    {
+        return 2
+    }
+    else if ( name == "3A" ||  name == "4B" ||  name == "4C" ||  name == "4E" ||  name == "5D" ||
+            name == "5E" ||  name == "5F" ||  name == "5G" ||  name == "5J" ||  name == "5H" ||  name == "5K"){
+        return 3
+    }
+    else if (name == "4A" || name == "5B" || name == "5C" ){
+        return 4
+    }
+    else if(name == "5A"){
+        return 5
+    }
+}
 function setPiece(color, name){
-    console.log(Pieces)
-    console.log(name)
 
     if (color == "green"){
         return Pieces['Green'][name]
@@ -68,6 +85,23 @@ function setPiece(color, name){
     }
 }
 
+function createGroups (pieces){
+    let groups = Math.trunc(pieces.length / 3)
+    let result = []
+    for (let i = 0; i < groups; i++){
+        result.push([])
+    }
+    console.log(`groups ${groups}`)
+
+    for (let i = 0; i < pieces.length; i++){
+        let mod = i % groups
+        console.log(mod)
+        result[mod].push(pieces[i])
+        console.log(result[mod])
+    }
+    console.log(result)
+    return result
+}
 
 function Board(gameId, token){
     const [board, setBoard] = useState([]);
@@ -138,9 +172,24 @@ function PiecesContainer(gameId, token){
         .catch(err => console.error('Error al obtener jugadores:', err));
         }, []);
 
+
+    let groups = createGroups(pieces)
+    console.log(groups)
+
     return(
         <div className='pieces-container'>
-            {pieces.map((el, num) => <img class='piece' key={num} src={setPiece(color, el)}/>)}
+            {groups.map((el, num) => PiecesGroup(el, num, color))}
+        </div>
+    )
+}
+
+function PiecesGroup(el, num, color){
+    if (num!= 1){
+        return
+    }
+    return (
+        <div className='pieces-group'>
+            {el.map((piece, id) => <img className={`img${getWidth(piece)}`} key={`${num}-${id}`} src={setPiece(color, piece)}/>)}
         </div>
     )
 }
@@ -152,24 +201,24 @@ function ViewBoard(){
     return (
 
 
-        <div class="container2">
-            <div class="box2 izq" >
-                <div class="black_text">
+        <div className="container2">
+            <div className="box2 izq" >
+                <div className="black_text">
                     Tus Datos 
                 </div>
-                <div class="black_text">
+                <div className="black_text">
                     Turno:
                 </div>
-                <div class="black_text">
+                <div className="black_text">
                     Monedas: 
                 </div>
-                <div class="black_text">
+                <div className="black_text">
                     Puntos: 
                 </div>
-                <div class="black_text">
+                <div className="black_text">
                     Power up: 
                 </div>
-                <div class="black_text">
+                <div className="black_text">
                     &nbsp; 
                 </div>
                     <>
@@ -179,10 +228,10 @@ function ViewBoard(){
                         <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
                     </>
             </div>
-            <div class="box2 center">        
+            <div className="box2 center">        
                  {Board(gameId, token)}
             </div>
-                <div class="box2 der">
+                <div className="box2 der">
                     {PiecesContainer(gameId, token)}
                 </div>
             </div>
