@@ -184,11 +184,12 @@ function PiecesContainer(gameId, token){
 }
 
 function PiecesGroup(el, num, color){
-    if (num!= 1){
+
+    if (num > 1){
         return
     }
     return (
-        <div className='pieces-group'>
+        <div className='pieces-group' key={num}>
             {el.map((piece, id) => <img className={`img${getWidth(piece)}`} key={`${num}-${id}`} src={setPiece(color, piece)}/>)}
         </div>
     )
