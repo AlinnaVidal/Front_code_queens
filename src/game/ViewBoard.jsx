@@ -1,6 +1,6 @@
 import { useEffect, useState, lazy } from 'react';
 import {useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
 
 import './Board.css'
@@ -64,9 +64,8 @@ function setPiece(color, name){
 }
 
 
-function Board({gameId}){
+function Board(gameId, token){
     const [board, setBoard] = useState([]);
-    const { token } = useContext(AuthContext);
     
     useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/view/${gameId}`, {
@@ -104,7 +103,7 @@ function Board({gameId}){
 }
 
 
-function PiecesContainer(gameId){
+function PiecesContainer(gameId, token){
     const [id, setId] = useState(0);
     const [color, setColor] = useState('');
     const [pieces, setPieces] = useState([]);
@@ -115,18 +114,24 @@ function PiecesContainer(gameId){
     // Seteo el color y las piezas disponibles del jugador
      useEffect(() => {
         fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`)
-            .then(res => res.json())
-            .then(data => 
-                    {   
-                        setId(data.id);
-                        setColor(data.color);
-                        fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/pieces/${id}`)
-                            .then(res => res.json())
-                            .then(data => setPieces(data['pieces']))
-                            .catch(err => console.error('Error al obtener piezas:', err));
+        .then(res => res.json())
+        .then(data => 
+                {   
+                    setId(data.id);
+                    setColor(data.color);
+                    fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/pieces/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
                     })
-            .catch(err => console.error('Error al obtener jugadores:', err));
-    }, []);
+                    .then(res => res.json())
+                    .then(data => setPieces(data['pieces']))
+                    .catch(err => console.error('Error al obtener piezas:', err));
+                })
+        .catch(err => console.error('Error al obtener jugadores:', err));
+        }, []);
 
     return(
         <div className='pieces-container'>
@@ -136,12 +141,13 @@ function PiecesContainer(gameId){
 }
 
 function ViewBoard(){
+    const { token } = useContext(AuthContext);
     const { gameId } = useParams();
 
     return (
         <div className='view-display'>
-            {Board(gameId)}
-            {PiecesContainer(gameId)}
+            {Board(gameId, token)}
+            {PiecesContainer(gameId, token)}
         </div>
     )
 }
