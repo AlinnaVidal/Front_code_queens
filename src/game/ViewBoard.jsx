@@ -1,6 +1,7 @@
 import { useEffect, useState, lazy } from 'react';
 import { useParams } from 'react-router-dom';
 
+// CASILLAS
 import blueB from '../assets/tablero/bloque_azul.png'
 import orangeB from '../assets/tablero/bloque_naranja.png'
 import greenB from '../assets/tablero/bloque_verde.png'
@@ -10,6 +11,8 @@ import coin from '../assets/tablero/moneda.png'
 import plus2 from '../assets/tablero/por_2.png'
 import plus4 from '../assets/tablero/por_4.png'
 
+// Piezas
+import Pieces from './PieceImages'
 
 function setCellColor(color){
     if (color == 'R'){
@@ -38,6 +41,23 @@ function setCellColor(color){
     }
 }
 
+function setPiece(color, name){
+    console.log(Pieces)
+    console.log(name)
+
+    if (color == "green"){
+        return Pieces['Green'][name]
+    }
+    else if (color == "blue"){
+        return Pieces['Blue'][name]
+    }
+    else if (color == "orange"){
+        return Pieces['Orange'][name]
+    }
+    else if (color == "red"){
+        return Pieces['Red'][name]
+    }
+}
 
 
 function Board(gameId){
@@ -69,7 +89,6 @@ function Board(gameId){
 
 }
 
-/* 
 
 function PiecesContainer(gameId){
     const [id, setId] = useState(0);
@@ -97,29 +116,17 @@ function PiecesContainer(gameId){
 
     return(
         <div>
-            {pieces.map((el) => Piece(el, color))}
+            {pieces.map((el, num) => <img key={num} src={setPiece(color, el)}/>)}
         </div>
     )
 }
 
-
-function Piece(name, color){
-    const [image, setImage] = useState()
-
-    useEffect( () => {
-        import(`../assets/piezas/${color}/${name}.png`).then(setImage)
-    })
-
-    return <img src={image} />
-}
-
-
-*/
 function ViewBoard(){
     const { gameId } = useParams();
 
     return (
         <div>
+            {PiecesContainer(gameId)}
             {Board(gameId)}
         </div>
     )
