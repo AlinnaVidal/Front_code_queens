@@ -2,6 +2,13 @@ import { useEffect, useState, lazy } from 'react';
 import {useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
+import './ViewBoard.css';
+
+import bomba1 from '../assets/tablero/bomba_1.png';
+import dado from '../assets/tablero/dado.png';
+import flechaAbajo from '../assets/tablero/flecha_abajo.png';
+import bloqueEspecial from '../assets/tablero/bloque_especial.png';
+
 
 
 import blueB from '../assets/tablero/bloque_azul.png'
@@ -132,9 +139,40 @@ function ViewBoard(){
     const { gameId } = useParams();
 
     return (
-        <div>
-        <Board gameId={gameId} />
-        </div>
+
+
+        <div class="container2">
+            <div class="box2 izq" >
+                <div class="black_text">
+                    Tus Datos 
+                </div>
+                <div class="black_text">
+                    Turno:
+                </div>
+                <div class="black_text">
+                    Monedas: 
+                </div>
+                <div class="black_text">
+                    Puntos: 
+                </div>
+                <div class="black_text">
+                    Power up: 
+                </div>
+                <div class="black_text">
+                    &nbsp; 
+                </div>
+                    <>
+                        <img  className="img" src={dado} alt="Dado" />
+                        <img  className="img" src={bomba1} alt="Bomba" />
+                        <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
+                        <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
+                    </>
+            </div>
+            <div class="box2 center">        
+                < Board gameId={gameId} />
+            </div>
+                <div class="box2 der">three</div>
+            </div>
     )
 }
 

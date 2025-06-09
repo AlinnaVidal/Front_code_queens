@@ -1,0 +1,54 @@
+
+.container2 {
+  display: flex;
+  width: 100%;
+  height: 100%; 
+}
+
+.box2 {
+  height: 100%;
+  display: flex;
+  align-items: center; 
+  color: white;
+  font-weight: bold;
+}
+
+.izq {
+  width: 20%;
+  height: 100%;
+  justify-content: flex-start;
+  overflow-y: auto;
+  overflow-x: hidden;     
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;  
+  white-space: normal;   
+}
+
+
+
+.center {
+  width: 50%;
+  height: 100%;
+  justify-content: center;
+}
+
+.der {
+  width: 30%;
+  height: 100%;
+  justify-content: flex-end;
+  overflow: auto;
+}
+
+.black_text {
+  color: #5d5e5a;
+  font-weight: bold;
+  size: 40;  
+}
+
+.img {
+  max-width: 30%;
+  height: auto;
+
+
+}
