@@ -17,7 +17,7 @@ export default function Navbar({ logout }) {
       </h1>
       <nav>
         <Link to="/instructions" className="normal-link">Instrucciones</Link>
-        <Link to="/about" className="normal-link">Nosotros</Link>
+        <Link to="/about" className="normal-link">Nosotras</Link>
         <Link to="/game" className="normal-link">Partidas</Link>
 
         {user ? (

@@ -75,7 +75,10 @@ function JoinGame() {
         const updatedJoined = [...joinedGames, gameId];
         setJoinedGames(updatedJoined);
         localStorage.setItem('joinedGames', JSON.stringify(updatedJoined));
-        navigate(`/games/${gameId}`);
+        navigate(`/view/${gameId}`);
+      } else {
+        const data = await response.json();
+        setMessage(`Error: ${data.error || 'No se pudo unir a la partida'}`);
       }
     } catch (err) {
       console.error(err);
@@ -86,7 +89,7 @@ function JoinGame() {
 
 
   const handleReturn = (gameId) => {
-    navigate(`/games/${gameId}`);
+    navigate(`/view/${gameId}`);
   };
 
   return (
