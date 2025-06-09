@@ -1,11 +1,19 @@
 import { Link } from 'react-router-dom'
 import './App.css'
+import { useContext } from 'react';
+import { AuthContext } from '../auth/AuthContext';
 
-export default function Navbar({ user, logout }) {
+
+
+export default function Navbar({ logout }) {
+  const { token } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+
+
   return (
     <header className="nav-bar">
       <h1>
-        <Link to="/" className="logo-link">🧩 Blokas</Link>
+        <Link to="/" className="logo-link">Blokas</Link>
       </h1>
       <nav>
         <Link to="/instructions" className="normal-link">Instrucciones</Link>
@@ -14,7 +22,8 @@ export default function Navbar({ user, logout }) {
 
         {user ? (
           <>
-            <a onClick={logout} className="normal-link" style={{ cursor: 'pointer' }}>Cerrar Sesión</a>          
+            <a onClick={logout
+            } className="normal-link" style={{ cursor: 'pointer' }}>Cerrar Sesión</a>          
             </>
         ) : (
           <>
@@ -22,6 +31,9 @@ export default function Navbar({ user, logout }) {
             <Link to="/signup" className="normal-link">Registro</Link>
           </>
         )}
+
+
+        
       </nav>
     </header>
   )

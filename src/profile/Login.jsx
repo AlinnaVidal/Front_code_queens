@@ -1,13 +1,16 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import axios from 'axios'
 import '../common/App.css'
+import { AuthContext } from '../auth/AuthContext'
 
 export default function Login() {
-  const { setUser } = useOutletContext()  //permite pasar datos desde el padre que renderiza un Putlet
+  const { setUser } = useContext(AuthContext);
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
+  const{token, setToken} = useContext(AuthContext);
 
   async function handleLogin(e) {
     e.preventDefault()
@@ -24,9 +27,9 @@ export default function Login() {
         }
       )
 
-      const { token, user } = response.data
-      localStorage.setItem('token', token)
-      localStorage.setItem('user', JSON.stringify(user))
+      const access_token = response.data.access_token;
+      const user = response.data.user;
+      setToken(access_token);
       setUser(user)
       navigate('/')
 

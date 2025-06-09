@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Outlet } from 'react-router-dom'
 import Navbar from './Navbar'
 import './App.css'
 import './Root.css'
+import { AuthContext } from '../auth/AuthContext';
 import img_logo from '../assets/logo.png';
+import { Link } from 'react-router-dom'
 
  function LandingPage() {
 
   const [games, setGames] = useState([]);
-
+  const { user } = useContext(AuthContext);  
 
    useEffect(() => {
   fetch(`${import.meta.env.VITE_BACKEND_URL}/games`)
@@ -22,16 +24,6 @@ import img_logo from '../assets/logo.png';
   return (
     
 <div class="container">
-  <div class="floating-icon uno">✨</div>
-  <div class="floating-icon dos">🎮</div>
-  <div class="floating-icon tres">✨</div>
-  <div class="floating-icon cuatro">👾</div>
-  <div class="floating-icon cinco">✨</div>
-  <div class="floating-icon seis">✨</div>
-  <div class="floating-icon siete">✨</div>
-  <div class="floating-icon ocho">🎲</div>
-  <div class="floating-icon nueve">🕹️</div>
-  <div class="floating-icon diez">🧩</div>
   
 
 
@@ -43,7 +35,14 @@ import img_logo from '../assets/logo.png';
     <p className= "black_text">
         Registrate o inicia sesión para jugar                                                                                                                                                                                                                                                                                      
     </p>
+    <div class="floating-icon dos">🎮👾</div>
   </div>
+
+    {user?.user_type === 'admin' && (
+      <Link className="button" to="/admin">
+        Abrir panel de control de administrador
+      </Link>
+    )}
 
 
 

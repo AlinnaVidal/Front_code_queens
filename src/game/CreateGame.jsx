@@ -4,12 +4,20 @@ function CreateGame() {
   const [name, setName] = useState('');
   const [maxPlayers, setMaxPlayers] = useState('');
   const [message, setMessage] = useState('');
+
   const user = JSON.parse(localStorage.getItem('user'));
+  const token = localStorage.getItem('token');
   const userId = user ? parseInt(user.id) : null;
 
   const handleCreateGame = async () => {
     if (!name || !maxPlayers) {
       setMessage('Por favor completa todos los campos');
+      return;
+    }
+
+    const numPlayers = parseInt(maxPlayers);
+    if (numPlayers < 2 || numPlayers > 4) {
+      setMessage('El número de jugadores debe estar entre 2 y 4');
       return;
     }
 
@@ -20,10 +28,11 @@ function CreateGame() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify({
             name: name,
-            max_capacity: parseInt(maxPlayers),
+            max_capacity: numPlayers,
           }),
         }
       );
@@ -42,9 +51,11 @@ function CreateGame() {
     }
   };
 
+
   return (
-    <div>
-      <h2>Crear Partida</h2>
+    <div className="view-games-container">
+      <h2 className="view-games-title">Crear Partida</h2>
+
       <input
         className="create-game-input"
         type="text"
@@ -53,20 +64,26 @@ function CreateGame() {
         onChange={(e) => setName(e.target.value)}
       />
       <br />
+
       <input
         className="create-game-input"
         type="number"
+        min="2"
+        max="4"
         placeholder="Máximo de jugadores"
         value={maxPlayers}
         onChange={(e) => setMaxPlayers(e.target.value)}
       />
       <br />
+
       <button className="create-game-button" onClick={handleCreateGame}>
         Crear partida
       </button>
-      <p>{message}</p>
+
+      {message && <p className="create-game-message">{message}</p>}
     </div>
   );
+
 }
 
 export default CreateGame;

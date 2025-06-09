@@ -1,5 +1,8 @@
 import { useEffect, useState, lazy } from 'react';
+import {useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { AuthContext } from '../auth/AuthContext';
+
 import './Board.css'
 
 // CASILLAS
@@ -61,15 +64,25 @@ function setPiece(color, name){
 }
 
 
-function Board(gameId){
+function Board({gameId}){
     const [board, setBoard] = useState([]);
+    const { token } = useContext(AuthContext);
     
     useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/view/${gameId}`)
-        .then(res => res.json())
-        .then(data => setBoard(data['board']))
-        .catch(err => console.error('Error al obtener partidas:', err));
-    }, []);
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/view/${gameId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+      .then(res => {
+        if (!res.ok) throw new Error(`Error ${res.status}`);
+        return res.json();
+      })
+      .then(data => setBoard(data.board))
+      .catch(err => console.error('Error al obtener el tablero:', err));
+  }, [gameId]);
 
     return (
         <div className="board">

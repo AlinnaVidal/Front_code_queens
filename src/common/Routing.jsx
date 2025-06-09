@@ -1,7 +1,6 @@
 // src/common/Routing.jsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Instructions from '../game/Instructions'
-import UserWelcome from '../profile/UserWelcome'
 import App from './App'
 import Login from '../profile/Login'
 import Signup from '../profile/Signup'
@@ -12,6 +11,12 @@ import CreateGame from '../game/CreateGame'
 import JoinGame from '../game/JoinGame'
 import ViewGames from '../game/ViewGames'
 import StartGame from '../game/StartGame'
+import UserCheck from '../protected/UserCheck'
+import AdminPage from '../admin/AdminPage';
+import AdminUsers from '../admin/AdminUsers';
+import AdminGames from '../admin/AdminGames';
+import AdminPlayers from '../admin/AdminPlayers';
+
 import ViewBoard from '../game/ViewBoard'
 
 
@@ -30,6 +35,12 @@ function Routing() {
           <Route path="games/join" element={<JoinGame />} />
           <Route path="games/view" element={<ViewGames />} />
           <Route path="games/:gameId" element={<StartGame />} />
+          <Route path="users" element={<UserCheck />} />
+          <Route path="admin" element={<AdminPage />} />
+          <Route path="admingames" element={<AdminGames />} />
+          <Route path="adminplayers" element={<AdminPlayers />} />
+          <Route path="Adminusers" element={<AdminUsers />} />
+
           <Route path="view/:gameId" element={<ViewBoard />} />
   
         </Route>
