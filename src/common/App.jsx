@@ -1,18 +1,18 @@
-import { useContext, useState } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
-import Navbar from './Navbar'
-import { AuthContext } from '../auth/AuthContext'
+import { useContext } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
+import { AuthContext } from "../auth/AuthContext";
 
 function App() {
-  const { token, setToken, user, setUser } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const { setToken, user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   function logout() {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    setToken(null) 
-    setUser(null)
-    navigate('/')
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setToken(null);
+    setUser(null);
+    navigate("/");
   }
 
   return (
@@ -22,7 +22,7 @@ function App() {
         <Outlet context={{ user, setUser }} />
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,99 +1,116 @@
-import { useEffect, useState, lazy } from 'react';
-import {useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../auth/AuthContext';
-import './ViewBoard.css';
+import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { useParams } from "react-router-dom";
+import { AuthContext } from "../auth/AuthContext";
+import "./ViewBoard.css";
 
-import bomba1 from '../assets/tablero/bomba_1.png';
-import dado from '../assets/tablero/dado.png';
-import flechaAbajo from '../assets/tablero/flecha_abajo.png';
-import bloqueEspecial from '../assets/tablero/bloque_especial.png';
-
+import bomba1 from "../assets/tablero/bomba_1.png";
+import dado from "../assets/tablero/dado.png";
+import flechaAbajo from "../assets/tablero/flecha_abajo.png";
+import bloqueEspecial from "../assets/tablero/bloque_especial.png";
 
 // CASILLAS
-import blueB from '../assets/tablero/bloque_azul.png'
-import orangeB from '../assets/tablero/bloque_naranja.png'
-import greenB from '../assets/tablero/bloque_verde.png'
-import redB from '../assets/tablero/bloque_rojo.png'
-import baseB from '../assets/tablero/bloque_tablero.png'
-import coin from '../assets/tablero/moneda.png'
-import plus2 from '../assets/tablero/por_2.png'
-import plus4 from '../assets/tablero/por_4.png'
+import blueB from "../assets/tablero/bloque_azul.png";
+import orangeB from "../assets/tablero/bloque_naranja.png";
+import greenB from "../assets/tablero/bloque_verde.png";
+import redB from "../assets/tablero/bloque_rojo.png";
+import baseB from "../assets/tablero/bloque_tablero.png";
+import coin from "../assets/tablero/moneda.png";
+import plus2 from "../assets/tablero/por_2.png";
+import plus4 from "../assets/tablero/por_4.png";
 
 // Piezas
-import Pieces from './PieceImages'
+import Pieces from "./PieceImages";
 
-function setCellColor(color){
-    if (color == 'R'){
-        return redB
-    }
-    else if (color == 'G'){
-        return greenB
-    }
-    else if (color == 'B'){
-        return blueB
-    }
-    else if (color == 'O'){
-        return orangeB
-    }
-    else if (color == 'C'){
-        return coin
-    }
-    else if (color == '+2'){
-        return plus2
-    }
-    else if (color == '+4'){
-        return plus4
-    }
-    else {
-        return baseB
-    }
+function setCellColor(color) {
+  if (color == "R") {
+    return redB;
+  }
+  else if (color == "G") {
+    return greenB;
+  }
+  else if (color == "B") {
+    return blueB;
+  }
+  else if (color == "O") {
+    return orangeB;
+  }
+  else if (color == "C") {
+    return coin;
+  }
+  else if (color == "+2") {
+    return plus2;
+  }
+  else if (color == "+4") {
+    return plus4;
+  }
+  else {
+    return baseB;
+  }
 }
 
-function getWidth(name){
-    if (name == "1"){
-        return 1
-    }
-    else if (name == "2" || name == "3B" || name == "4D" || name == "5I")
-    {
-        return 2
-    }
-    else if ( name == "3A" ||  name == "4B" ||  name == "4C" ||  name == "4E" ||  name == "5D" ||
-            name == "5E" ||  name == "5F" ||  name == "5G" ||  name == "5J" ||  name == "5H" ||  name == "5K"){
-        return 3
-    }
-    else if (name == "4A" || name == "5B" || name == "5C" ){
-        return 4
-    }
-    else if(name == "5A"){
-        return 5
-    }
+function getWidth(name) {
+  if (name == "1") {
+    return 1;
+  }
+  else if (name == "2" || name == "3B" || name == "4D" || name == "5I")
+  {
+    return 2;
+  }
+  else if ( name == "3A" ||  name == "4B" ||  name == "4C" ||  name == "4E" ||  name == "5D" ||
+            name == "5E" ||  name == "5F" ||  name == "5G" ||  name == "5J" ||  name == "5H" ||  name == "5K") {
+    return 3;
+  }
+  else if (name == "4A" || name == "5B" || name == "5C" ) {
+    return 4;
+  }
+  else if(name == "5A") {
+    return 5;
+  }
 }
-function setPiece(color, name){
+function setPiece(color, name) {
 
-    if (color == "green"){
-        return Pieces['Green'][name]
-    }
-    else if (color == "blue"){
-        return Pieces['Blue'][name]
-    }
-    else if (color == "orange"){
-        return Pieces['Orange'][name]
-    }
-    else if (color == "red"){
-        return Pieces['Red'][name]
-    }
+  if (color == "green") {
+    return Pieces["Green"][name];
+  }
+  else if (color == "blue") {
+    return Pieces["Blue"][name];
+  }
+  else if (color == "orange") {
+    return Pieces["Orange"][name];
+  }
+  else if (color == "red") {
+    return Pieces["Red"][name];
+  }
 }
 
-function Board(gameId, token){
-    const [board, setBoard] = useState([]);
-    
-    useEffect(() => {
+function createGroups (pieces) {
+  let groups = Math.trunc(pieces.length / 3);
+  let result = [];
+  for (let i = 0; i < groups; i++) {
+    result.push([]);
+  }
+  console.log(`groups ${groups}`);
+
+  for (let i = 0; i < pieces.length; i++) {
+    let mod = i % groups;
+    console.log(mod);
+    result[mod].push(pieces[i]);
+    console.log(result[mod]);
+  }
+  console.log(result);
+  return result;
+}
+
+function Board(gameId, token) {
+  const [board, setBoard] = useState([]);
+
+  useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/view/${gameId}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     })
       .then(res => {
@@ -101,25 +118,25 @@ function Board(gameId, token){
         return res.json();
       })
       .then(data => setBoard(data.board))
-      .catch(err => console.error('Error al obtener el tablero:', err));
+      .catch(err => console.error("Error al obtener el tablero:", err));
   }, [gameId]);
 
-    return (
-        <div className="board">
-        {board.map((board_row, row) => (
-            <div key={row} className="row">
-            {board_row.map((value, col) => (
-                <img
-                key={`${row}-${col}`}
-                src={setCellColor(value)}
-                alt='celda'
-                className="cell"
-                />
-            ))}
-            </div>
-        ))}
+  return (
+    <div className="board">
+      {board.map((board_row, row) => (
+        <div key={row} className="row">
+          {board_row.map((value, col) => (
+            <img
+              key={`${row}-${col}`}
+              src={setCellColor(value)}
+              alt='celda'
+              className="cell"
+            />
+          ))}
         </div>
-    );
+      ))}
+    </div>
+  );
 
 }
 
@@ -129,69 +146,68 @@ function PiecesContainer(gameId, userId, token){
     const [pieces, setPieces] = useState([]);
     const [currentGroup, setCurrentGroup] = useState(0); 
 
-    useEffect(() => {
-        /* Entrega el id del jugador userId en el juego gameId */
-        fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`)
-        .then(res => res.json())
-        .then(data => {   
-            setId(data.id);
-            setColor(data.color);
-            fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/pieces/${data.id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-            })
-            .then(res => res.json())
-            .then(data => setPieces(data['pieces']))
-            .catch(err => console.error('Error al obtener piezas:', err));
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`)
+      .then(res => res.json())
+      .then(data => {
+        setId(data.id);
+        setColor(data.color);
+        fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/pieces/${data.id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
         })
-        .catch(err => console.error('Error al obtener jugadores:', err));
-    }, []);
+          .then(res => res.json())
+          .then(data => setPieces(data["pieces"]))
+          .catch(err => console.error("Error al obtener piezas:", err));
+      })
+      .catch(err => console.error("Error al obtener jugadores:", err));
+  }, []);
 
-    const groupSize = 7;
-    const groups = [];
-    for (let i = 0; i < pieces.length; i += groupSize) {
-        groups.push(pieces.slice(i, i + groupSize));
-    }
+  const groupSize = 7;
+  const groups = [];
+  for (let i = 0; i < pieces.length; i += groupSize) {
+    groups.push(pieces.slice(i, i + groupSize));
+  }
 
-    const handleNext = () => {
-        setCurrentGroup((prev) => (prev + 1 < groups.length ? prev + 1 : prev));
-    }
+  const handleNext = () => {
+    setCurrentGroup((prev) => (prev + 1 < groups.length ? prev + 1 : prev));
+  };
 
-    const handlePrev = () => {
-        setCurrentGroup((prev) => (prev > 0 ? prev - 1 : 0));
-    }
+  const handlePrev = () => {
+    setCurrentGroup((prev) => (prev > 0 ? prev - 1 : 0));
+  };
 
-return (
-<div className="pieces-container">
-  <div className="pieces-slider">
-    <div
-      className="pieces-wrapper"
-      style={{ transform: `translateX(-${currentGroup * 100}%)` }}
-    >
-      {groups.map((group, index) => (
-        <div className="pieces-group" key={index}>
-          {group.map((piece, idx) => (
-            <img
-              className={`img${getWidth(piece)}`}
-              key={`${index}-${idx}`}
-              src={setPiece(color, piece)}
-              alt={`pieza-${piece}`}
-            />
+  return (
+    <div className="pieces-container">
+      <div className="pieces-slider">
+        <div
+          className="pieces-wrapper"
+          style={{ transform: `translateX(-${currentGroup * 100}%)` }}
+        >
+          {groups.map((group, index) => (
+            <div className="pieces-group" key={index}>
+              {group.map((piece, idx) => (
+                <img
+                  className={`img${getWidth(piece)}`}
+                  key={`${index}-${idx}`}
+                  src={setPiece(color, piece)}
+                  alt={`pieza-${piece}`}
+                />
+              ))}
+            </div>
           ))}
         </div>
-      ))}
+      </div>
+      <div className="slider-buttons">
+        <button onClick={handlePrev} disabled={currentGroup === 0}>◀</button>
+        <button onClick={handleNext} disabled={currentGroup === groups.length - 1}>▶</button>
+      </div>
     </div>
-  </div>
-  <div className="slider-buttons">
-    <button onClick={handlePrev} disabled={currentGroup === 0}>◀</button>
-    <button onClick={handleNext} disabled={currentGroup === groups.length - 1}>▶</button>
-  </div>
-</div>
 
-);
+  );
 
 }
 
@@ -239,9 +255,9 @@ function makePlayer(player, token){
 }
 
 */
-function ViewBoard(){
-    const { token } = useContext(AuthContext);
-    const { gameId } = useParams();
+function ViewBoard() {
+  const { token } = useContext(AuthContext);
+  const { gameId } = useParams();
 
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user ? parseInt(user.id) : null;
@@ -297,6 +313,5 @@ function ViewBoard(){
             </div>
     )
 }
-
 
 export default ViewBoard;

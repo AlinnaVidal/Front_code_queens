@@ -1,24 +1,24 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 function CreateGame() {
-  const [name, setName] = useState('');
-  const [maxPlayers, setMaxPlayers] = useState('');
-  const [message, setMessage] = useState('');
+  const [name, setName] = useState("");
+  const [maxPlayers, setMaxPlayers] = useState("");
+  const [message, setMessage] = useState("");
 
-  const user = JSON.parse(localStorage.getItem('user'));
-  const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
   const userId = user ? parseInt(user.id) : null;
 
   const handleCreateGame = async () => {
 
     if (!name || !maxPlayers) {
-      setMessage('Por favor completa todos los campos');
+      setMessage("Por favor completa todos los campos");
       return;
     }
 
     const numPlayers = parseInt(maxPlayers);
     if (numPlayers < 2 || numPlayers > 4) {
-      setMessage('El número de jugadores debe estar entre 2 y 4');
+      setMessage("El número de jugadores debe estar entre 2 y 4");
       return;
     }
 
@@ -26,10 +26,10 @@ function CreateGame() {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/new-game/${userId}`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`, 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
           },
           body: JSON.stringify({
             name: name,
@@ -39,25 +39,24 @@ function CreateGame() {
       );
 
       if (response.status === 201) {
-        const createdGame = await response.json(); 
-        const joined = JSON.parse(localStorage.getItem('joinedGames')) || [];
+        const createdGame = await response.json();
+        const joined = JSON.parse(localStorage.getItem("joinedGames")) || [];
         const updatedJoined = [...joined, createdGame.id];
-        localStorage.setItem('joinedGames', JSON.stringify(updatedJoined));
+        localStorage.setItem("joinedGames", JSON.stringify(updatedJoined));
 
-        setMessage('¡Partida creada exitosamente!');
-        setName('');
-        setMaxPlayers('');
+        setMessage("¡Partida creada exitosamente!");
+        setName("");
+        setMaxPlayers("");
       }
       else {
         const data = await response.json();
-        setMessage(`Error: ${data.error || 'No se pudo crear la partida'}`);
+        setMessage(`Error: ${data.error || "No se pudo crear la partida"}`);
       }
     } catch (err) {
       console.error(err);
-      setMessage('Error al conectar con el servidor');
+      setMessage("Error al conectar con el servidor");
     }
   };
-
 
   return (
     <div className="view-games-container">

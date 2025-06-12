@@ -1,16 +1,12 @@
-import { useState, useEffect, useContext } from 'react';
-import '../common/App.css'
-import '../common/Root.css'
-import { Link } from 'react-router-dom'
-import { AuthContext } from '../auth/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
+import { useState, useEffect, useContext } from "react";
+import "../common/App.css";
+import "../common/Root.css";
+import { AuthContext } from "../auth/AuthContext";
+import axios from "axios";
 
 export default function AdminPlayers() {
   const [players, setPlayers] = useState([]);
-  const [message, setMessage] = useState('');
-  const navigate = useNavigate();
+  const [setMessage] = useState("");
   const { token } = useContext(AuthContext);
   const { user } = useContext(AuthContext);
 
@@ -23,23 +19,23 @@ export default function AdminPlayers() {
         Authorization: `Bearer ${token}`
       }
     }) .then(res => {
-    setPlayers(res.data); 
-  })
-    .catch(err => {
-      console.error('Token inválido o expirado:', err);
-      setMessage('No estás logueado o el token expiró');
-    });
+      setPlayers(res.data);
+    })
+      .catch(err => {
+        console.error("Token inválido o expirado:", err);
+        setMessage("No estás logueado o el token expiró");
+      });
   }, [token]);
 
   const FunRemove = (id) => {
-    if (user?.user_type !== 'admin') {
+    if (user?.user_type !== "admin") {
       alert("No tienes permisos para eliminar.");
       return;
     }
 
     if (window.confirm("¿Quieres eliminarlo?")) {
-      fetch(`http://localhost:3000/users/${id}`, { method: "DELETE",      
-         headers: {Authorization: `Bearer ${token}`,"Content-Type": "application/json" } })
+      fetch(`http://localhost:3000/users/${id}`, { method: "DELETE",
+        headers: { "Authorization": `Bearer ${token}`,"Content-Type": "application/json" } })
         .then(() => {
           setPlayers(prev => prev.filter(player => player.id !== id));
         })
@@ -49,25 +45,23 @@ export default function AdminPlayers() {
     }
   };
 
-
   return (
-    <div className="about-us"> 
+    <div className="about-us">
 
-    <ul className="join-game-list">
+      <ul className="join-game-list">
         {players.length === 0 ? (
           <li className="no-games">No hay usuarios</li>
         ) : (
           players.map((player) => (
-              <li className="player" key={player.id}>
+            <li className="player" key={player.id}>
               <span className="user-id"> user id: {player.user_id}</span>&nbsp;&nbsp; - &nbsp;&nbsp;
               <span className="user-id"> color: {player.color}</span>
-              <button onClick={() => { FunRemove(player.id) }}>Borrar</button>
+              <button onClick={() => { FunRemove(player.id); }}>Borrar</button>
             </li>
           ))
         )}
       </ul>
 
-
     </div>
-  )
+  );
 }

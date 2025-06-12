@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 function ViewGames() {
   const [games, setGames] = useState([]);
@@ -7,10 +7,8 @@ function ViewGames() {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/games`)
       .then(res => res.json())
       .then(data => setGames(data))
-      .catch(err => console.error('Error al obtener partidas:', err));
+      .catch(err => console.error("Error al obtener partidas:", err));
   }, []);
-
-
 
   return (
     <div className="view-games-container">

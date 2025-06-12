@@ -1,24 +1,23 @@
 // src/common/Routing.jsx
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Instructions from '../game/Instructions'
-import App from './App'
-import Login from '../profile/Login'
-import Signup from '../profile/Signup'
-import AboutUs from './Nosotros'
-import LandingPage from './Root'
-import Game from '../game/Game'
-import CreateGame from '../game/CreateGame'
-import JoinGame from '../game/JoinGame'
-import ViewGames from '../game/ViewGames'
-import StartGame from '../game/StartGame'
-import UserCheck from '../protected/UserCheck'
-import AdminPage from '../admin/AdminPage';
-import AdminUsers from '../admin/AdminUsers';
-import AdminGames from '../admin/AdminGames';
-import AdminPlayers from '../admin/AdminPlayers';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Instructions from "../game/Instructions";
+import App from "./App";
+import Login from "../profile/Login";
+import Signup from "../profile/Signup";
+import AboutUs from "./Nosotros";
+import LandingPage from "./Root";
+import Game from "../game/Game";
+import CreateGame from "../game/CreateGame";
+import JoinGame from "../game/JoinGame";
+import ViewGames from "../game/ViewGames";
+import StartGame from "../game/StartGame";
+import UserCheck from "../protected/UserCheck";
+import AdminPage from "../admin/AdminPage";
+import AdminUsers from "../admin/AdminUsers";
+import AdminGames from "../admin/AdminGames";
+import AdminPlayers from "../admin/AdminPlayers";
 
-import ViewBoard from '../game/ViewBoard'
-
+import ViewBoard from "../game/ViewBoard";
 
 function Routing() {
   return (
@@ -42,11 +41,11 @@ function Routing() {
           <Route path="Adminusers" element={<AdminUsers />} />
 
           <Route path="view/:gameId" element={<ViewBoard />} />
-  
+
         </Route>
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default Routing
+export default Routing;

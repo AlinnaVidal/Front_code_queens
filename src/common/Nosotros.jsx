@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { showSlides, plusSlides, currentSlide } from './slider.js';
-import './App.css';
+import { useEffect } from "react";
+import { showSlides, plusSlides, currentSlide } from "./slider.js";
+import "./App.css";
 
 export default function AboutUs() {
   useEffect(() => {
