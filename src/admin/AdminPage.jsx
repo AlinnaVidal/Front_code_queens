@@ -1,12 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
-import '../common/App.css'
-import '../common/Root.css'
-import { Link } from 'react-router-dom'
-import { AuthContext } from '../auth/AuthContext';
+import "../common/App.css";
+import "../common/Root.css";
+import { Link } from "react-router-dom";
 
 export default function AdminPage() {
   return (
-    <div className="about-us"> 
+    <div className="about-us">
       <Link className="button" to="/adminusers">
         Administrar users
       </Link>
@@ -17,5 +15,5 @@ export default function AdminPage() {
         Administrar players
       </Link>
     </div>
-  )
+  );
 }

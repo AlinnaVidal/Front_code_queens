@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { showSlides, plusSlides, currentSlide } from './slider.js';
-import './App.css';
+import { useEffect } from "react";
+import { showSlides, plusSlides, currentSlide } from "./slider.js";
+import "./App.css";
 
 export default function AboutUs() {
   useEffect(() => {
@@ -21,23 +21,22 @@ export default function AboutUs() {
         </div>
 
         <div className="mySlides fade">
-        <h3>Integrantes</h3>
-        <div className="integrantes-container">
-          <div className="integrante">
-            <img src="/images/valentina.jpg" alt="Valentina Juri" />
-            <p>Valentina Juri</p>
-          </div>
-          <div className="integrante">
-            <img src="src/common/fotos/fotoflo.jpg" alt="Florencia Schiappacasse" />
-            <p>Florencia Schiappacasse</p>
-          </div>
-          <div className="integrante">
-            <img src="src/common/fotos/fotoali.jpg" alt="Alinna Vidal" />
-            <p>Alinna Vidal</p>
+          <h3>Integrantes</h3>
+          <div className="integrantes-container">
+            <div className="integrante">
+              <img src="/images/valentina.jpg" alt="Valentina Juri" />
+              <p>Valentina Juri</p>
+            </div>
+            <div className="integrante">
+              <img src="src/common/fotos/fotoflo.jpg" alt="Florencia Schiappacasse" />
+              <p>Florencia Schiappacasse</p>
+            </div>
+            <div className="integrante">
+              <img src="src/common/fotos/fotoali.jpg" alt="Alinna Vidal" />
+              <p>Alinna Vidal</p>
+            </div>
           </div>
         </div>
-      </div>
-
 
         <div className="mySlides fade">
           <h3>Nuestro Objetivo</h3>

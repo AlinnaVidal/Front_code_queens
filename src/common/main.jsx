@@ -1,19 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
-import UserWelcome from '../profile/UserWelcome'
-import Routing from './Routing'
-import AuthProvider from '../auth/AuthProvider'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import Routing from "./Routing";
+import AuthProvider from "../auth/AuthProvider";
 
-
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-    <Routing /> 
+      <Routing />
     </AuthProvider>
   </React.StrictMode>,
-)
-
-
+);
 
