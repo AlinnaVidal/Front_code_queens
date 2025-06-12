@@ -109,7 +109,7 @@
   background-color: rgb(244, 231, 231);
   border: 3px solid;
   border-color:  rgb(244, 231, 231);
-  padding: 2% 0%;
+  padding: 5% 0%;
 }
 
 .players-info{
@@ -131,6 +131,7 @@
   flex-direction: column;
   align-items: center;
   width: 110px;
+
   overflow: hidden;
 }
 

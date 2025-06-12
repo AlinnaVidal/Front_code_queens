@@ -9,7 +9,7 @@ export default function AboutUs() {
 
   return (
     <div className="about-us">
-      <h2>Sobre Nosotros</h2>
+      <h2>Sobre Nosotras</h2>
 
       <div className="slideshow-container">
 
@@ -24,7 +24,7 @@ export default function AboutUs() {
         <h3>Integrantes</h3>
         <div className="integrantes-container">
           <div className="integrante">
-            <img src="/images/valentina.jpg" alt="Valentina Juri" />
+            <img src="src/common/fotos/fotovale.jpeg" alt="Valentina Juri" />
             <p>Valentina Juri</p>
           </div>
           <div className="integrante">

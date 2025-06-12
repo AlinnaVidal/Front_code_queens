@@ -123,14 +123,16 @@ function Board(gameId, token){
 
 }
 
-function PiecesContainer(gameId, userId, token){
+function PiecesContainer(gameId, token){
     const [id, setId] = useState(0);
     const [color, setColor] = useState('');
     const [pieces, setPieces] = useState([]);
     const [currentGroup, setCurrentGroup] = useState(0); 
 
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? parseInt(user.id) : null;
+
     useEffect(() => {
-        /* Entrega el id del jugador userId en el juego gameId */
         fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`)
         .then(res => res.json())
         .then(data => {   
@@ -195,7 +197,7 @@ return (
 
 }
 
-/* 
+
 function playersInfo(gameId, userId, token){
     const [players, setPlayers] = useState([])
 
@@ -238,7 +240,6 @@ function makePlayer(player, token){
     )
 }
 
-*/
 function ViewBoard(){
     const { token } = useContext(AuthContext);
     const { gameId } = useParams();
@@ -246,7 +247,6 @@ function ViewBoard(){
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user ? parseInt(user.id) : null;
 
-    /* 
     const [player, setPlayer] = useState({})
 
     useEffect(() => {
@@ -257,7 +257,7 @@ function ViewBoard(){
     }, [])
 
     console.log(player)
-*/
+
     return (
         <div className="container2">
             <div className="box2 izq" >
@@ -265,16 +265,16 @@ function ViewBoard(){
                     Tus Datos: 
                 </div>
                 <div className="black_text">
-                    Turno: 
+                    Turno: {player.turn}
                 </div>
                 <div className="black_text">
-                    Monedas:
+                    Monedas: {player.coins}
                 </div>
                 <div className="black_text">
-                    Puntos: 
+                    Puntos: {player.points}
                 </div>
                 <div className="black_text">
-                    Power up: 
+                    Power up: {player.power_ups}
                 </div>
                 <div className="black_text">
                     &nbsp; 
@@ -292,7 +292,7 @@ function ViewBoard(){
             </div>
                 <div className="box2 der">
                     {playersInfo(gameId, userId, token)}
-                    {PiecesContainer(gameId, userId, token)}
+                    {PiecesContainer(gameId, token)}
                 </div>
             </div>
     )
