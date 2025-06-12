@@ -192,6 +192,7 @@ function PiecesContainer(gameId, userId, token){
               {group.map((piece, idx) => (
                 <img
                   className={`img${getWidth(piece)}`}
+                  id={piece}
                   key={`${index}-${idx}`}
                   src={setPiece(color, piece)}
                   alt={`pieza-${piece}`}
@@ -211,7 +212,7 @@ function PiecesContainer(gameId, userId, token){
 
 }
 
-/* 
+
 function playersInfo(gameId, userId, token){
     const [players, setPlayers] = useState([])
 
@@ -222,39 +223,26 @@ function playersInfo(gameId, userId, token){
             .catch(err => console.error('Error al obtener jugadores:', err));
     }, []);
 
+    console.log(players)
     return (
         <div className='players-info'>
-            {players.map(el => makePlayer(el, token))}
+            {players.map(el => makePlayer(el))}
         </div>
     )
 }
 
-function makePlayer(player, token){
-    const [user, setUser] = useState({})
-
-    useEffect(() => {
-        fetch(`${import.meta.env.VITE_BACKEND_URL}/users/${player.user_id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-            })
-        .then(res => console.log(res))
-        .then(data => setUser(data))
-        .catch(err => console.error('Error al obtener usuario:', err));
-    }, []);
-
-    return (
-        <div key={player.id}>
-            <div key={`${player.id}-1`}>Nombre de usuario: {user.name}</div>
-            <div key={`${player.id}-2`}>Puntos: {el.points}</div>
-            <div key={`${player.id}-3`}>Monedas: {el.coins}</div>
-        </div>
-    )
+function makePlayer(el)
+{
+  return(
+    <div className="black_text" key={el.id}>
+        <div key={`${el.id}-1`}>{`Nombre de usuario: ${el.username}`}</div>
+        <div key={`${el.id}-2`}>{`Puntos: ${el.points}`}</div>
+        <div key={`${el.id}-3`}>{`Monedas: ${el.coins}`}</div>
+    </div>
+  )
 }
 
-*/
+
 function ViewBoard() {
   const { token } = useContext(AuthContext);
   const { gameId } = useParams();
@@ -262,8 +250,8 @@ function ViewBoard() {
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user ? parseInt(user.id) : null;
 
-    /* 
     const [player, setPlayer] = useState({})
+
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`)
@@ -272,46 +260,46 @@ function ViewBoard() {
             .catch(err => console.error('Error al obtener jugador:', err));
     }, [])
 
-    console.log(player)
-*/
     return (
-        <div className="container2">
-            <div className="box2 izq" >
-                <div className="black_text">
-                    Tus Datos: 
-                </div>
-                <div className="black_text">
-                    Turno: 
-                </div>
-                <div className="black_text">
-                    Monedas:
-                </div>
-                <div className="black_text">
-                    Puntos: 
-                </div>
-                <div className="black_text">
-                    Power up: 
-                </div>
-                <div className="black_text">
-                    &nbsp; 
-                </div>
-                 
-                    <>
-                        <img  className="img" src={dado} alt="Dado" />
-                        <img  className="img" src={bomba1} alt="Bomba" />
-                        <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
-                        <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
-                    </>
-            </div>
-            <div className="box2 center">        
-                 {Board(gameId, token)}
-            </div>
-                <div className="box2 der">
-                    {playersInfo(gameId, userId, token)}
-                    {PiecesContainer(gameId, userId, token)}
-                </div>
-            </div>
+  <div className="container2">
+      <div className="box2 izq" >
+          <div className="black_text">
+              Tus Datos: 
+          </div>
+          <div className="black_text">
+              {`${player.turn? "Es tu turno": "No es tu turno"}`}
+          </div>
+          <div className="black_text">
+              {`Monedas: ${player.coins}`}
+          </div>
+          <div className="black_text">
+              {`Puntos: ${player.points}`}
+          </div>
+          <div className="black_text">
+              {`Power ups: ${player.power_ups != undefined ? player.power_ups: "Ninguno"}`}
+          </div>
+          <div className="black_text">
+              &nbsp; 
+          </div>
+            
+              <>
+                  <img  className="img" src={dado} alt="Dado" />
+                  <img  className="img" src={bomba1} alt="Bomba" />
+                  <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
+                  <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
+              </>
+      </div>
+      <div className="box2 center">        
+            {Board(gameId, token)}
+      </div>
+          <div className="box2 der">
+              {playersInfo(gameId, userId, token)}
+              {PiecesContainer(gameId, userId, token)}
+          </div>
+      </div>
     )
 }
+
+
 
 export default ViewBoard;
