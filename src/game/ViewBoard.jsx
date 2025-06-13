@@ -84,136 +84,116 @@ function setPiece(color, name) {
   }
 }
 
-function createGroups (pieces) {
-  let groups = Math.trunc(pieces.length / 3);
-  let result = [];
-  for (let i = 0; i < groups; i++) {
-    result.push([]);
-  }
-  console.log(`groups ${groups}`);
+function Board(gameId, token, callback) {
+    const [board, setBoard] = useState([]);
 
-  for (let i = 0; i < pieces.length; i++) {
-    let mod = i % groups;
-    console.log(mod);
-    result[mod].push(pieces[i]);
-    console.log(result[mod]);
-  }
-  console.log(result);
-  return result;
-}
-
-function Board(gameId, token) {
-  const [board, setBoard] = useState([]);
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/view/${gameId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    })
-      .then(res => {
-        if (!res.ok) throw new Error(`Error ${res.status}`);
-        return res.json();
+    useEffect(() => {
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/view/${gameId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
       })
-      .then(data => setBoard(data.board))
-      .catch(err => console.error("Error al obtener el tablero:", err));
-  }, [gameId]);
+        .then(res => {
+          if (!res.ok) throw new Error(`Error ${res.status}`);
+          return res.json();
+        })
+        .then(data => setBoard(data.board))
+        .catch(err => console.error("Error al obtener el tablero:", err));
+    }, [gameId]);
 
-  return (
-    <div className="board">
-      {board.map((board_row, row) => (
-        <div key={row} className="row">
-          {board_row.map((value, col) => (
-            <img
-              key={`${row}-${col}`}
-              src={setCellColor(value)}
-              alt='celda'
-              className="cell"
-            />
-          ))}
-        </div>
-      ))}
-    </div>
-  );
+    return (
+      <div className="board">
+        {board.map((board_row, row) => (
+          <div key={row} className="row">
+            {board_row.map((value, col) => (
+              <img
+                onClick={() => {callback([row, col])}}
+                key={`${row}-${col}`}
+                src={setCellColor(value)}
+                /*onClick={tryMove([row,col], 1)}*/
+                alt='celda'
+                className="cell"
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    );
 
-}
+  }
 
-function PiecesContainer(gameId, userId, token){
-    const [id, setId] = useState(0);
+  function PiecesContainer(gameId, userId, token, callback){
     const [color, setColor] = useState('');
     const [pieces, setPieces] = useState([]);
     const [currentGroup, setCurrentGroup] = useState(0); 
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`)
-      .then(res => res.json())
-      .then(data => {
-        setId(data.id);
-        setColor(data.color);
-        fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/pieces/${data.id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-          },
+    useEffect(() => {
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`)
+        .then(res => res.json())
+        .then(data => {
+          setColor(data.color);
+          fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/pieces/${data.id}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
+            },
+          })
+            .then(res => res.json())
+            .then(data => setPieces(data["pieces"]))
+            .catch(err => console.error("Error al obtener piezas:", err));
         })
-          .then(res => res.json())
-          .then(data => setPieces(data["pieces"]))
-          .catch(err => console.error("Error al obtener piezas:", err));
-      })
-      .catch(err => console.error("Error al obtener jugadores:", err));
-  }, []);
+        .catch(err => console.error("Error al obtener jugadores:", err));
+    }, []);
 
-  const groupSize = 7;
-  const groups = [];
-  for (let i = 0; i < pieces.length; i += groupSize) {
-    groups.push(pieces.slice(i, i + groupSize));
-  }
+    const groupSize = 7;
+    const groups = [];
+    for (let i = 0; i < pieces.length; i += groupSize) {
+      groups.push(pieces.slice(i, i + groupSize));
+    }
 
-  const handleNext = () => {
-    setCurrentGroup((prev) => (prev + 1 < groups.length ? prev + 1 : prev));
-  };
+    const handleNext = () => {
+      setCurrentGroup((prev) => (prev + 1 < groups.length ? prev + 1 : prev));
+    };
 
-  const handlePrev = () => {
-    setCurrentGroup((prev) => (prev > 0 ? prev - 1 : 0));
-  };
+    const handlePrev = () => {
+      setCurrentGroup((prev) => (prev > 0 ? prev - 1 : 0));
+    };
 
-  return (
-    <div className="pieces-container">
-      <div className="pieces-slider">
-        <div
-          className="pieces-wrapper"
-          style={{ transform: `translateX(-${currentGroup * 100}%)` }}
-        >
-          {groups.map((group, index) => (
-            <div className="pieces-group" key={index}>
-              {group.map((piece, idx) => (
-                <img
-                  className={`img${getWidth(piece)}`}
-                  id={piece}
-                  key={`${index}-${idx}`}
-                  src={setPiece(color, piece)}
-                  alt={`pieza-${piece}`}
-                />
-              ))}
-            </div>
-          ))}
+    return (
+      <div className="pieces-container">
+        <div className="pieces-slider">
+          <div
+            className="pieces-wrapper"
+            style={{ transform: `translateX(-${currentGroup * 100}%)` }}
+          >
+            {groups.map((group, index) => (
+              <div className="pieces-group" key={index}>
+                {group.map((piece, idx) => (
+                  <img
+                    className={`img${getWidth(piece)}`}
+                    onClick={() => {callback(piece)}}
+                    key={`${index}-${idx}`}
+                    src={setPiece(color, piece)}
+                    alt={`pieza-${piece}`}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="slider-buttons">
+          <button onClick={handlePrev} disabled={currentGroup === 0}>◀</button>
+          <button onClick={handleNext} disabled={currentGroup === groups.length - 1}>▶</button>
         </div>
       </div>
-      <div className="slider-buttons">
-        <button onClick={handlePrev} disabled={currentGroup === 0}>◀</button>
-        <button onClick={handleNext} disabled={currentGroup === groups.length - 1}>▶</button>
-      </div>
-    </div>
 
-  );
+    );
+  }
 
-}
-
-
-function playersInfo(gameId, userId, token){
+  function playersInfo(gameId, userId, token){
     const [players, setPlayers] = useState([])
 
     useEffect(() => {
@@ -223,44 +203,44 @@ function playersInfo(gameId, userId, token){
             .catch(err => console.error('Error al obtener jugadores:', err));
     }, []);
 
-    console.log(players)
     return (
         <div className='players-info'>
             {players.map(el => makePlayer(el))}
         </div>
     )
-}
+  }
 
-function makePlayer(el)
-{
-  return(
-    <div className="black_text" key={el.id}>
-        <div key={`${el.id}-1`}>{`Nombre de usuario: ${el.username}`}</div>
-        <div key={`${el.id}-2`}>{`Puntos: ${el.points}`}</div>
-        <div key={`${el.id}-3`}>{`Monedas: ${el.coins}`}</div>
-    </div>
-  )
-}
+  function makePlayer(el)
+  {
+    return(
+      <div className="black_text" key={el.id}>
+          <div key={`${el.id}-1`}>{`Nombre de usuario: ${el.username}`}</div>
+          <div key={`${el.id}-2`}>{`Puntos: ${el.points}`}</div>
+          <div key={`${el.id}-3`}>{`Monedas: ${el.coins}`}</div>
+      </div>
+    )
+  }
 
 
 function ViewBoard() {
   const { token } = useContext(AuthContext);
   const { gameId } = useParams();
 
-    const user = JSON.parse(localStorage.getItem('user'));
-    const userId = user ? parseInt(user.id) : null;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user ? parseInt(user.id) : null;
 
-    const [player, setPlayer] = useState({})
+  const [player, setPlayer] = useState({})
+  const [piece, setPiece] = useState({})
 
 
-    useEffect(() => {
-        fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`)
-            .then(res => res.json())
-            .then(data => setPlayer(data))
-            .catch(err => console.error('Error al obtener jugador:', err));
-    }, [])
+  useEffect(() => {
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`)
+          .then(res => res.json())
+          .then(data => setPlayer(data))
+          .catch(err => console.error('Error al obtener jugador:', err));
+  }, [])
 
-    return (
+  return (
   <div className="container2">
       <div className="box2 izq" >
           <div className="black_text">
@@ -281,23 +261,59 @@ function ViewBoard() {
           <div className="black_text">
               &nbsp; 
           </div>
-            
-              <>
-                  <img  className="img" src={dado} alt="Dado" />
-                  <img  className="img" src={bomba1} alt="Bomba" />
-                  <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
-                  <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
-              </>
+            <>
+              <img  className="img" src={dado} alt="Dado" />
+              <img  className="img" src={bomba1} alt="Bomba" />
+              <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
+              <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
+            </>
       </div>
       <div className="box2 center">        
-            {Board(gameId, token)}
+            {Board(gameId, token, addBoard)}
       </div>
           <div className="box2 der">
               {playersInfo(gameId, userId, token)}
-              {PiecesContainer(gameId, userId, token)}
+              {PiecesContainer(gameId, userId, token, addPiece)}
           </div>
-      </div>
-    )
+      </div>)
+
+  // Setea pieza que se quiere agregar
+  function addPiece(piece){
+    setPiece(piece)
+    console.log(`la pieza actual es: ${piece}`)
+  }
+
+  function addBoard(position){
+    if (piece != null){
+      console.log("TRYING TO FETCH")
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/move`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ 
+          "player":`${player.id}`,
+          "piece_type": `${piece}`,
+          "rotation": "U",
+          "position": `${position}`
+        })
+      })
+        .then(res => console.log(res))
+        .then(data => setBoard(data.board))
+        .catch(err => console.error("Error al intentar movimiento:", err));
+    
+      // Al finalizar debemos resetear la pieza
+      setPiece(null)
+    }
+  }
+
+
+
+  
+
+  
+
 }
 
 
