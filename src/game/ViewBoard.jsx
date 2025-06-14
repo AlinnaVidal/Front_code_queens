@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { data, useParams } from "react-router-dom";
 import { AuthContext } from "../auth/AuthContext";
 import "./ViewBoard.css";
 
@@ -84,8 +84,8 @@ function setPiece(color, name) {
   }
 }
 
-function Board(gameId, token, callback) {
-    const [board, setBoard] = useState([]);
+
+  function Board(gameId, token, callback, board, setBoard) {
 
     useEffect(() => {
       fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/view/${gameId}`, {
@@ -231,6 +231,10 @@ function ViewBoard() {
 
   const [player, setPlayer] = useState({})
   const [piece, setPiece] = useState({})
+  const [board, setBoard] = useState([]);
+
+  const [changes, setChanges] = useState([])
+  const [colorMark, setColorMark] = useState('')
 
 
   useEffect(() => {
@@ -269,13 +273,15 @@ function ViewBoard() {
             </>
       </div>
       <div className="box2 center">        
-            {Board(gameId, token, addBoard)}
+            {Board(gameId, token, addBoard, board, setBoard)}
       </div>
           <div className="box2 der">
               {playersInfo(gameId, userId, token)}
               {PiecesContainer(gameId, userId, token, addPiece)}
           </div>
       </div>)
+
+  
 
   // Setea pieza que se quiere agregar
   function addPiece(piece){
@@ -300,11 +306,23 @@ function ViewBoard() {
           position: `[${position}]`
         })
       })
-        .then(res => console.log(res))
-        .then(data => setBoard(data.board))
+        .then(res => res.json())
+        .then(data => {
+          setChanges(data.changes)
+          setColorMark(data.color)
+        })
         .catch(err => console.error("Error al intentar movimiento:", err));
     
+      let new_board = board
+      for (let i = 0; i < changes.length; i++){
+        let c_row = changes[i][0]
+        let c_col = changes[i][1]
+        new_board[c_row, c_col] = colorMark
+        
+      }
+
       // Al finalizar debemos resetear la pieza
+      setBoard(new_board)
       setPiece(null)
     }
   }
