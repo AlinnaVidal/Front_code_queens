@@ -109,10 +109,10 @@ function Board(gameId, token, callback) {
           <div key={row} className="row">
             {board_row.map((value, col) => (
               <img
-                onClick={() => {callback([row, col])}}
+                onClick={() => {
+                  callback([row, col])}}
                 key={`${row}-${col}`}
                 src={setCellColor(value)}
-                /*onClick={tryMove([row,col], 1)}*/
                 alt='celda'
                 className="cell"
               />
@@ -284,6 +284,7 @@ function ViewBoard() {
   }
 
   function addBoard(position){
+    let player_id = player.id
     if (piece != null){
       console.log("TRYING TO FETCH")
       fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/move`, {
@@ -293,10 +294,10 @@ function ViewBoard() {
           "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify({ 
-          "player":`${player.id}`,
-          "piece_type": `${piece}`,
-          "rotation": "U",
-          "position": `${position}`
+          player: `${player_id}`,
+          piece_type: `${piece}`,
+          rotation: "U",
+          position: `[${position}]`
         })
       })
         .then(res => console.log(res))
