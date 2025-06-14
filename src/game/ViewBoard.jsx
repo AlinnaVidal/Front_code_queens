@@ -308,22 +308,22 @@ function ViewBoard() {
       })
         .then(res => res.json())
         .then(data => {
-          setChanges(data.changes)
-          setColorMark(data.color)
+          if (data['changes'] != undefined){
+            setChanges(data.changes)
+            setColorMark(data.color)
+
+            let new_board = board
+            for (let i = 0; i < changes.length; i++){
+              let c_row = changes[i][0]
+              let c_col = changes[i][1]
+              new_board[c_row, c_col] = colorMark}
+
+            // Al finalizar debemos resetear la pieza
+          setBoard(new_board)
+          }
         })
         .catch(err => console.error("Error al intentar movimiento:", err));
-    
-      let new_board = board
-      for (let i = 0; i < changes.length; i++){
-        let c_row = changes[i][0]
-        let c_col = changes[i][1]
-        new_board[c_row, c_col] = colorMark
-        
-      }
-
-      // Al finalizar debemos resetear la pieza
-      setBoard(new_board)
-      setPiece(null)
+        setPiece(null)
     }
   }
 
