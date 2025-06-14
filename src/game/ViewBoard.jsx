@@ -22,6 +22,8 @@ import plus4 from "../assets/tablero/por_4.png";
 // Piezas
 import Pieces from "./PieceImages";
 
+
+
 function setCellColor(color) {
   if (color == "R") {
     return redB;
@@ -235,6 +237,42 @@ function ViewBoard() {
 
   const [changes, setChanges] = useState([])
   const [colorMark, setColorMark] = useState('')
+  const [message, setMessage] = useState("");
+
+
+  
+async function surrender( player_id) {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/mechanics/surrender/${player_id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 201 || response.status === 200) {
+        //const createdGame = await response.json();
+        //const joined = JSON.parse(localStorage.getItem("joinedGames")) || [];
+        //const updatedJoined = [...joined, createdGame.id];
+        //localStorage.setItem("joinedGames", JSON.stringify(updatedJoined));
+
+        setMessage("¡te rendiste exitosamente!");
+        setName("");
+        setMaxPlayers("");
+      }
+      else {
+        const data = await response.json();
+        setMessage(`Error: ${data.error || "No se pudo crear la partida"}`);
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Error al conectar con el servidor");
+    }
+}
 
 
   useEffect(() => {
@@ -270,6 +308,15 @@ function ViewBoard() {
               <img  className="img" src={bomba1} alt="Bomba" />
               <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
               <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
+              <div className="black_text">
+                 &nbsp; 
+               </div>
+              <div className="button" onClick={() => surrender(player.id)}>
+                Rendirse
+              </div>
+              <div>
+                  {message && <p className="black_text">{message}</p>}
+              </div>
             </>
       </div>
       <div className="box2 center">        

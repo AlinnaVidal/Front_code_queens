@@ -177,3 +177,19 @@
   cursor: default;
 }
 
+.button {
+  background-color: #fe7a76; /* https://www.w3schools.com/css/css3_buttons.asp #fe7a76 #1c2351*/
+  border: none;
+  color: #fff;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 4px;
+  width: 50%;   
+  height: 10%;
+}
+
+
+.button:hover {background-color: #1c2351;
+color: #fff}
