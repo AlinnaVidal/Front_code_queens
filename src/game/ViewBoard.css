@@ -1,6 +1,5 @@
 
 .container2 {
-  padding-top: 80px;
   display: flex;
   width: 100%;
   height: 100%; 
@@ -177,3 +176,7 @@
   cursor: default;
 }
 
+.game-title{
+  padding-top: 50px;
+  color: #5d5e5a;
+}

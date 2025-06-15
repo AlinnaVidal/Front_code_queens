@@ -232,6 +232,7 @@ function ViewBoard() {
   const [player, setPlayer] = useState({})
   const [piece, setPiece] = useState({})
   const [board, setBoard] = useState([]);
+  const [game, setGame] = useState({})
 
   const [changes, setChanges] = useState([])
   const [colorMark, setColorMark] = useState('')
@@ -242,9 +243,15 @@ function ViewBoard() {
           .then(res => res.json())
           .then(data => setPlayer(data))
           .catch(err => console.error('Error al obtener jugador:', err));
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/games/${gameId}`)
+          .then(res => res.json())
+          .then(data => setGame(data))
+          .catch(err => console.error('Error al obtener jugador:', err));
   }, [])
 
   return (
+  <div className="game-title">
+    <h1> {`Estás en la partida "${game.name}"`} </h1>
   <div className="container2">
       <div className="box2 izq" >
           <div className="black_text">
@@ -279,6 +286,7 @@ function ViewBoard() {
               {playersInfo(gameId, userId, token)}
               {PiecesContainer(gameId, userId, token, addPiece)}
           </div>
+      </div>
       </div>)
 
   
@@ -326,13 +334,6 @@ function ViewBoard() {
         setPiece(null)
     }
   }
-
-
-
-  
-
-  
-
 }
 
 

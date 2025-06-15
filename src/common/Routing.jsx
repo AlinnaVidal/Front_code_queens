@@ -10,7 +10,7 @@ import Game from "../game/Game";
 import CreateGame from "../game/CreateGame";
 import JoinGame from "../game/JoinGame";
 import ViewGames from "../game/ViewGames";
-import StartGame from "../game/StartGame";
+import MyGames from "../game/MyGames";
 import UserCheck from "../protected/UserCheck";
 import AdminPage from "../admin/AdminPage";
 import AdminUsers from "../admin/AdminUsers";
@@ -33,7 +33,6 @@ function Routing() {
           <Route path="games/create" element={<CreateGame />} />
           <Route path="games/join" element={<JoinGame />} />
           <Route path="games/view" element={<ViewGames />} />
-          <Route path="games/:gameId" element={<StartGame />} />
           <Route path="users" element={<UserCheck />} />
           <Route path="admin" element={<AdminPage />} />
           <Route path="admingames" element={<AdminGames />} />
