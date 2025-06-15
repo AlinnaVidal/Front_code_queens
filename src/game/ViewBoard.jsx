@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { data, useParams } from "react-router-dom";
 import { AuthContext } from "../auth/AuthContext";
 import "./ViewBoard.css";
+import { Link } from "react-router-dom";
 
 import bomba1 from "../assets/tablero/bomba_1.png";
 import dado from "../assets/tablero/dado.png";
@@ -231,6 +232,7 @@ function ViewBoard() {
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user ? parseInt(user.id) : null;
 
+  const [game, setGame] = useState({})
   const [player, setPlayer] = useState({})
   const [piece, setPiece] = useState({})
   const [board, setBoard] = useState([]);
@@ -254,15 +256,18 @@ async function surrender( player_id) {
         }
       );
 
+      console.log("Status del surrender:", response.status);
+      const text = await response.text();
+      console.log("Texto crudo de la respuesta:", text);
+
+
       if (response.status === 201 || response.status === 200) {
         //const createdGame = await response.json();
         //const joined = JSON.parse(localStorage.getItem("joinedGames")) || [];
         //const updatedJoined = [...joined, createdGame.id];
         //localStorage.setItem("joinedGames", JSON.stringify(updatedJoined));
 
-        setMessage("¡te rendiste exitosamente!");
-        setName("");
-        setMaxPlayers("");
+        setMessage("¡Te rendiste exitosamente!");
       }
       else {
         const data = await response.json();
@@ -281,6 +286,15 @@ async function surrender( player_id) {
           .then(data => setPlayer(data))
           .catch(err => console.error('Error al obtener jugador:', err));
   }, [])
+
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/games/${gameId}`)
+          .then(res => res.json())
+          .then(data => setGame(data))
+          .catch(err => console.error('Error al obtener game:', err));
+  }, [])
+
 
   return (
   <div className="container2">
@@ -310,10 +324,26 @@ async function surrender( player_id) {
               <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
               <div className="black_text">
                  &nbsp; 
-               </div>
-              <div className="button" onClick={() => surrender(player.id)}>
-                Rendirse
+
+              <div className="black_text" >
+                El estado del juego es: {game.state}
               </div>
+          </div>
+               
+              
+              {game.state === "playing" &&(
+                <div className="button" onClick={() => surrender(player.id)}>
+                Rendirse 
+                </div>
+              )}
+
+
+              {game.state === "finished" &&(
+                <Link to={`/winners/${game.id}`} className="button">
+                Ver ganadores
+                </Link>
+              )}
+              
               <div>
                   {message && <p className="black_text">{message}</p>}
               </div>

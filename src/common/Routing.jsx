@@ -16,6 +16,7 @@ import AdminPage from "../admin/AdminPage";
 import AdminUsers from "../admin/AdminUsers";
 import AdminGames from "../admin/AdminGames";
 import AdminPlayers from "../admin/AdminPlayers";
+import Winners from "../game/Winners";
 
 import ViewBoard from "../game/ViewBoard";
 
@@ -41,6 +42,7 @@ function Routing() {
           <Route path="Adminusers" element={<AdminUsers />} />
 
           <Route path="view/:gameId" element={<ViewBoard />} />
+          <Route path="winners/:gameId" element={<Winners />} />
 
         </Route>
       </Routes>
