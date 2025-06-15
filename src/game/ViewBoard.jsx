@@ -5,6 +5,7 @@ import { AuthContext } from "../auth/AuthContext";
 import "./ViewBoard.css";
 import { Link } from "react-router-dom";
 
+
 import bomba1 from "../assets/tablero/bomba_1.png";
 import dado from "../assets/tablero/dado.png";
 import flechaAbajo from "../assets/tablero/flecha_abajo.png";
@@ -88,7 +89,7 @@ function setPiece(color, name) {
 }
 
 
-  function Board(gameId, token, callback, board, setBoard) {
+  function Board(gameId, token, callback, board, setBoard, refreshTrigger )  {
 
     useEffect(() => {
       fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/view/${gameId}`, {
@@ -102,9 +103,29 @@ function setPiece(color, name) {
           if (!res.ok) throw new Error(`Error ${res.status}`);
           return res.json();
         })
-        .then(data => setBoard(data.board))
+        .then(data => {
+          console.log("Board recibido:", data.board); 
+          
+          setBoard(data.board);
+        })  
         .catch(err => console.error("Error al obtener el tablero:", err));
-    }, [gameId]);
+    }, [gameId, refreshTrigger]);
+
+
+
+        if (!Array.isArray(board)) {
+    console.error("❌ Board no es un array:", board);
+    return <div>Error: el tablero no tiene el formato esperado.</div>;
+  }
+
+  for (let i = 0; i < board.length; i++) {
+    console.error(`Fila ${i}`, JSON.stringify(board[i], null, 2))
+    if (!Array.isArray(board[i])) {
+      console.error(`❌ Fila ${i} del board no es un array:`, JSON.stringify(board[i], null, 2));
+      
+      return <div>Error: fila inválida en el tablero.</div>;
+    }
+  }
 
     return (
       <div className="board">
@@ -127,9 +148,8 @@ function setPiece(color, name) {
 
   }
 
-  function PiecesContainer(gameId, userId, token, callback){
+  function PiecesContainer({gameId, userId, token, callback, pieces, setPieces}){
     const [color, setColor] = useState('');
-    const [pieces, setPieces] = useState([]);
     const [currentGroup, setCurrentGroup] = useState(0); 
 
     useEffect(() => {
@@ -240,6 +260,8 @@ function ViewBoard() {
   const [changes, setChanges] = useState([])
   const [colorMark, setColorMark] = useState('')
   const [message, setMessage] = useState("");
+  const [pieces, setPieces] = useState([]);
+
 
 
   
@@ -354,7 +376,7 @@ async function surrender( player_id) {
       </div>
           <div className="box2 der">
               {playersInfo(gameId, userId, token)}
-              {PiecesContainer(gameId, userId, token, addPiece)}
+              <PiecesContainer gameId={gameId} userId={userId} token={token} callback={addPiece} pieces={pieces} setPieces={setPieces}/>
           </div>
       </div>)
 
@@ -385,24 +407,45 @@ async function surrender( player_id) {
       })
         .then(res => res.json())
         .then(data => {
-          setChanges(data.changes)
-          setColorMark(data.color)
-        })
-        .catch(err => console.error("Error al intentar movimiento:", err));
-    
-      let new_board = board
-      for (let i = 0; i < changes.length; i++){
-        let c_row = changes[i][0]
-        let c_col = changes[i][1]
-        new_board[c_row, c_col] = colorMark
-        
+      const { changes, color } = data;
+
+      let new_board = board.map(row => [...row]);
+      for (let i = 0; i < changes.length; i++) {
+        let [r, c] = changes[i];
+        new_board[r][c] = color;
       }
 
-      // Al finalizar debemos resetear la pieza
-      setBoard(new_board)
-      setPiece(null)
-    }
+      setBoard(new_board);
+
+      
+      setPiece(null);  // resetea la pieza
+      //SEGUNDO FETCH PLAYER
+      return fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+    })
+    .then(res => res.json())
+    .then(updatedPlayer => {
+      setPlayer(updatedPlayer); // actualizar estado
+
+      // TERCER FETCH PIECES
+      return fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/pieces/${updatedPlayer.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+    })
+    .then(res => res.json())
+    .then(data => {
+    setPieces(data.pieces);
+  })
+    .catch(err => console.error("Error en la secuencia de movimientos:", err));
   }
+}
 
 
 
