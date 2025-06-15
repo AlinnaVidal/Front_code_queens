@@ -113,19 +113,6 @@ function setPiece(color, name) {
 
 
 
-        if (!Array.isArray(board)) {
-    console.error("❌ Board no es un array:", board);
-    return <div>Error: el tablero no tiene el formato esperado.</div>;
-  }
-
-  for (let i = 0; i < board.length; i++) {
-    console.error(`Fila ${i}`, JSON.stringify(board[i], null, 2))
-    if (!Array.isArray(board[i])) {
-      console.error(`❌ Fila ${i} del board no es un array:`, JSON.stringify(board[i], null, 2));
-      
-      return <div>Error: fila inválida en el tablero.</div>;
-    }
-  }
 
     return (
       <div className="board">
@@ -262,6 +249,24 @@ function ViewBoard() {
   const [message, setMessage] = useState("");
   const [pieces, setPieces] = useState([]);
 
+function buy_powerup(powerup_id){
+  console.log(player.power_ups)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/buy-powerup/${player.id}/${powerup_id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+  })
+    .then(res => {
+      if (!res.ok) throw new Error(`Error ${res.status}`);
+      return res.json();
+    })
+  
+  
+  
+
+}
 
 
   
@@ -334,16 +339,16 @@ async function surrender( player_id) {
               {`Puntos: ${player.points}`}
           </div>
           <div className="black_text">
-              {`Power ups: ${player.power_ups != undefined ? player.power_ups: "Ninguno"}`}
+              {`Power ups: ${player.power_up_id != undefined ? player.power_up_id: "Ninguno"}`}
           </div>
           <div className="black_text">
               &nbsp; 
           </div>
             <>
-              <img  className="img" src={dado} alt="Dado" />
-              <img  className="img" src={bomba1} alt="Bomba" />
-              <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
-              <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
+              <img  className="img" src={dado} alt="Dado" onClick={() => buy_powerup(5)} />
+              <img  className="img" src={bomba1} alt="Bomba"  onClick={() => buy_powerup(2)} />
+              <img  className="img" src={flechaAbajo} alt="Flecha Abajo"  onClick={() => buy_powerup(4)}/>
+              <img  className="img"src={bloqueEspecial} alt="Bloque Especial"  onClick={() => buy_powerup(3)}/>
               <div className="black_text">
                  &nbsp; 
 
