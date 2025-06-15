@@ -3,6 +3,8 @@ import { useContext } from "react";
 import { data, useParams } from "react-router-dom";
 import { AuthContext } from "../auth/AuthContext";
 import "./ViewBoard.css";
+import { Link } from "react-router-dom";
+
 
 import bomba1 from "../assets/tablero/bomba_1.png";
 import dado from "../assets/tablero/dado.png";
@@ -21,6 +23,8 @@ import plus4 from "../assets/tablero/por_4.png";
 
 // Piezas
 import Pieces from "./PieceImages";
+
+
 
 function setCellColor(color) {
   if (color == "R") {
@@ -85,7 +89,7 @@ function setPiece(color, name) {
 }
 
 
-  function Board(gameId, token, callback, board, setBoard) {
+  function Board(gameId, token, callback, board, setBoard, refreshTrigger )  {
 
     useEffect(() => {
       fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/view/${gameId}`, {
@@ -99,9 +103,16 @@ function setPiece(color, name) {
           if (!res.ok) throw new Error(`Error ${res.status}`);
           return res.json();
         })
-        .then(data => setBoard(data.board))
+        .then(data => {
+          console.log("Board recibido:", data.board); 
+          
+          setBoard(data.board);
+        })  
         .catch(err => console.error("Error al obtener el tablero:", err));
-    }, [gameId]);
+    }, [gameId, refreshTrigger]);
+
+
+
 
     return (
       <div className="board">
@@ -124,9 +135,8 @@ function setPiece(color, name) {
 
   }
 
-  function PiecesContainer(gameId, userId, token, callback){
+  function PiecesContainer({gameId, userId, token, callback, pieces, setPieces}){
     const [color, setColor] = useState('');
-    const [pieces, setPieces] = useState([]);
     const [currentGroup, setCurrentGroup] = useState(0); 
 
     useEffect(() => {
@@ -229,13 +239,72 @@ function ViewBoard() {
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user ? parseInt(user.id) : null;
 
+  const [game, setGame] = useState({})
   const [player, setPlayer] = useState({})
   const [piece, setPiece] = useState({})
   const [board, setBoard] = useState([]);
-  const [game, setGame] = useState({})
 
   const [changes, setChanges] = useState([])
   const [colorMark, setColorMark] = useState('')
+  const [message, setMessage] = useState("");
+  const [pieces, setPieces] = useState([]);
+
+function buy_powerup(powerup_id){
+  console.log(player.power_ups)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/buy-powerup/${player.id}/${powerup_id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+  })
+    .then(res => {
+      if (!res.ok) throw new Error(`Error ${res.status}`);
+      return res.json();
+    })
+  
+  
+  
+
+}
+
+
+  
+async function surrender( player_id) {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/mechanics/surrender/${player_id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Status del surrender:", response.status);
+      const text = await response.text();
+      console.log("Texto crudo de la respuesta:", text);
+
+
+      if (response.status === 201 || response.status === 200) {
+        //const createdGame = await response.json();     lol
+        //const joined = JSON.parse(localStorage.getItem("joinedGames")) || [];
+        //const updatedJoined = [...joined, createdGame.id];
+        //localStorage.setItem("joinedGames", JSON.stringify(updatedJoined));
+
+        setMessage("¡Te rendiste exitosamente!");
+      }
+      else {
+        const data = await response.json();
+        setMessage(`Error: ${data.error || "No se pudo crear la partida"}`);
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Error al conectar con el servidor");
+    }
+}
 
 
   useEffect(() => {
@@ -248,6 +317,8 @@ function ViewBoard() {
           .then(data => setGame(data))
           .catch(err => console.error('Error al obtener jugador:', err));
   }, [])
+
+
 
   return (
   <div className="game-title">
@@ -267,16 +338,41 @@ function ViewBoard() {
               {`Puntos: ${player.points}`}
           </div>
           <div className="black_text">
-              {`Power ups: ${player.power_ups != undefined ? player.power_ups: "Ninguno"}`}
+              {`Power ups: ${player.power_up_id != undefined ? player.power_up_id: "Ninguno"}`}
           </div>
           <div className="black_text">
               &nbsp; 
           </div>
             <>
-              <img  className="img" src={dado} alt="Dado" />
-              <img  className="img" src={bomba1} alt="Bomba" />
-              <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
-              <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
+              <img  className="img" src={dado} alt="Dado" onClick={() => buy_powerup(5)} />
+              <img  className="img" src={bomba1} alt="Bomba"  onClick={() => buy_powerup(2)} />
+              <img  className="img" src={flechaAbajo} alt="Flecha Abajo"  onClick={() => buy_powerup(4)}/>
+              <img  className="img"src={bloqueEspecial} alt="Bloque Especial"  onClick={() => buy_powerup(3)}/>
+              <div className="black_text">
+                 &nbsp; 
+
+              <div className="black_text" >
+                El estado del juego es: {game.state}
+              </div>
+          </div>
+               
+              
+              {game.state === "playing" &&(
+                <div className="button" onClick={() => surrender(player.id)}>
+                Rendirse 
+                </div>
+              )}
+
+
+              {game.state === "finished" &&(
+                <Link to={`/winners/${game.id}`} className="button">
+                Ver ganadores
+                </Link>
+              )}
+              
+              <div>
+                  {message && <p className="black_text">{message}</p>}
+              </div>
             </>
       </div>
       <div className="box2 center">        
@@ -284,9 +380,9 @@ function ViewBoard() {
       </div>
           <div className="box2 der">
               {playersInfo(gameId, userId, token)}
-              {PiecesContainer(gameId, userId, token, addPiece)}
+              <PiecesContainer gameId={gameId} userId={userId} token={token} callback={addPiece} pieces={pieces} setPieces={setPieces}/>
           </div>
-      </div>
+          </div>
       </div>)
 
   
@@ -316,24 +412,47 @@ function ViewBoard() {
       })
         .then(res => res.json())
         .then(data => {
-          if (data['changes'] != undefined){
-            setChanges(data.changes)
-            setColorMark(data.color)
 
-            let new_board = board
-            for (let i = 0; i < changes.length; i++){
-              let c_row = changes[i][0]
-              let c_col = changes[i][1]
-              new_board[c_row, c_col] = colorMark}
+      const { changes, color } = data;
 
-            // Al finalizar debemos resetear la pieza
-          setBoard(new_board)
-          }
-        })
-        .catch(err => console.error("Error al intentar movimiento:", err));
-        setPiece(null)
-    }
+      let new_board = board.map(row => [...row]);
+      for (let i = 0; i < changes.length; i++) {
+        let [r, c] = changes[i];
+        new_board[r][c] = color;
+      }
+
+      setBoard(new_board);
+
+      
+      setPiece(null);  // resetea la pieza
+      //SEGUNDO FETCH PLAYER
+      return fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+    })
+    .then(res => res.json())
+    .then(updatedPlayer => {
+      setPlayer(updatedPlayer); // actualizar estado
+
+      // TERCER FETCH PIECES
+      return fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/pieces/${updatedPlayer.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+    })
+    .then(res => res.json())
+    .then(data => {
+    setPieces(data.pieces);
+  })
+    .catch(err => console.error("Error en la secuencia de movimientos:", err));
   }
+}
+
 }
 
 
