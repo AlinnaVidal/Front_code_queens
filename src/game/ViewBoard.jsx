@@ -262,6 +262,7 @@ function buy_powerup(powerup_id){
       if (!res.ok) throw new Error(`Error ${res.status}`);
       return res.json();
     })
+  console.log("power comprado");
   
   
   
@@ -395,7 +396,48 @@ async function surrender( player_id) {
 
   function addBoard(position){
     let player_id = player.id
-    if (piece != null){
+    if (player.power_up_id === 4) {
+      const [row, col] = position;
+      const box = board[row][col];
+      
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/players/game/${gameId}/${userId}`)
+        .then(res => res.json())
+        .then(players => {
+          var color
+          if(box == "R"){
+            color = "red"
+          }
+          if(box == "O"){
+            color = "orange"
+          }
+          if(box == "G"){
+            color = "green"
+          }
+          if(box == "B"){
+            color = "blue"
+          }
+          const rival = players.find(p => p.color === color);
+
+          if (!rival) {
+            console.warn("No se encontró rival con color:", color);
+            return;
+          }
+
+          const rivalid = rival.id;
+          console.log("al rival:", rivalid);
+          console.log("box:", box);
+
+          return fetch(`${import.meta.env.VITE_BACKEND_URL}/use-powerup-quitar-puntos/${player.id}/${rivalid}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
+            },
+          });
+        })
+        .catch(err => console.error("Error al obtener jugadores:", err));
+    }
+    else if (piece != null){
       console.log("TRYING TO FETCH")
       fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/move`, {
         method: "POST",
@@ -453,10 +495,6 @@ async function surrender( player_id) {
 }
 
 
-
-  
-
-  
 
 }
 
