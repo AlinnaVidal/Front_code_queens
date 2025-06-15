@@ -284,7 +284,7 @@ async function surrender( player_id) {
 
 
       if (response.status === 201 || response.status === 200) {
-        //const createdGame = await response.json();
+        //const createdGame = await response.json();     lol
         //const joined = JSON.parse(localStorage.getItem("joinedGames")) || [];
         //const updatedJoined = [...joined, createdGame.id];
         //localStorage.setItem("joinedGames", JSON.stringify(updatedJoined));
