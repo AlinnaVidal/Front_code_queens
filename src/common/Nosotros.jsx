@@ -24,15 +24,15 @@ export default function AboutUs() {
           <h3>Integrantes</h3>
           <div className="integrantes-container">
             <div className="integrante">
-              <img src="src/common/fotos/fotovale.jpeg" alt="Valentina Juri" />
+              <img src="src/assets/fotovale.jpeg" alt="Valentina Juri" />
               <p>Valentina Juri</p>
             </div>
             <div className="integrante">
-              <img src="src/common/fotos/fotoflo.jpg" alt="Florencia Schiappacasse" />
+              <img src="src/assets/fotoflo.jpg" alt="Florencia Schiappacasse" />
               <p>Florencia Schiappacasse</p>
             </div>
             <div className="integrante">
-              <img src="src/common/fotos/fotoali.jpg" alt="Alinna Vidal" />
+              <img src="src/assets/fotoali.jpg" alt="Alinna Vidal" />
               <p>Alinna Vidal</p>
             </div>
           </div>
