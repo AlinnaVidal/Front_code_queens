@@ -10,7 +10,6 @@ import Game from "../game/Game";
 import CreateGame from "../game/CreateGame";
 import JoinGame from "../game/JoinGame";
 import ViewGames from "../game/ViewGames";
-import MyGames from "../game/MyGames";
 import UserCheck from "../protected/UserCheck";
 import AdminPage from "../admin/AdminPage";
 import AdminUsers from "../admin/AdminUsers";

@@ -244,8 +244,6 @@ function ViewBoard() {
   const [piece, setPiece] = useState({})
   const [board, setBoard] = useState([]);
 
-  const [changes, setChanges] = useState([])
-  const [colorMark, setColorMark] = useState('')
   const [message, setMessage] = useState("");
   const [pieces, setPieces] = useState([]);
 
@@ -392,10 +390,13 @@ async function surrender( player_id) {
     setPiece(piece)
     console.log(`la pieza actual es: ${piece}`)
   }
-
   function addBoard(position){
     let player_id = player.id
-    if (piece != null){
+    if (player.power_up_id != null){
+      
+
+    }
+    else if (piece != null){
       console.log("TRYING TO FETCH")
       fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/move`, {
         method: "POST",
