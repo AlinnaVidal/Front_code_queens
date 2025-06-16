@@ -397,6 +397,7 @@ async function surrender( player_id) {
   function addBoard(position){
     let player_id = player.id
     if (player.power_up_id === 4) {
+      console.log("tienes el poweup");
       const [row, col] = position;
       const box = board[row][col];
       
@@ -437,7 +438,48 @@ async function surrender( player_id) {
         })
         .catch(err => console.error("Error al obtener jugadores:", err));
     }
+    else if (player.power_up_id === 2) {
+      console.log("tienes el powerup bomba");
+      const [row, col] = position;
+      const box = board[row][col];
+      
+    console.log("voy a mandar x", col)
+    console.log("voy a mandar y", row)
+    return fetch(`${import.meta.env.VITE_BACKEND_URL}/use-powerup-bomba/${player.id}/${col}/${row}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+
+    
+    });
+    
+
+    }
+        else if (player.power_up_id === 3) {
+      console.log("tienes el powerup pieza especial");
+      const [row, col] = position;
+      const box = board[row][col];
+      
+    console.log("voy a mandar x", col)
+    console.log("voy a mandar y", row)
+    return fetch(`${import.meta.env.VITE_BACKEND_URL}/use-powerup-pieza-especial/${player.id}/${col}/${row}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+
+    
+    });
+    
+
+    }
+
+
     else if (piece != null){
+      console.log("No tienes power up")
       console.log("TRYING TO FETCH")
       fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/move`, {
         method: "POST",
