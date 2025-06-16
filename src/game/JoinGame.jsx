@@ -129,17 +129,6 @@ function JoinGame() {
     <div className="join-game-container">
       <h2>Unirse a Partida</h2>
 
-      {gamesJoinedIds.length > 0 && (
-        <div style={{ marginBottom: "1rem" }}>
-          <button
-            className="return-to-game-button"
-            onClick={() => handleReturn(gamesJoinedIds[0])}
-          >
-            Volver a mi partida
-          </button>
-        </div>
-      )}
-
       {message && <p className="join-game-message">{message}</p>}
 
       <ul className="join-game-list">
