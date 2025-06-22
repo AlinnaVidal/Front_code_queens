@@ -177,3 +177,9 @@
   cursor: default;
 }
 
+.rotated-U { transform: rotate(0deg); }
+.rotated-R { transform: rotate(90deg); }
+.rotated-D { transform: rotate(180deg); }
+.rotated-L { transform: rotate(270deg); }
+
+
