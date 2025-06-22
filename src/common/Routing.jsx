@@ -10,12 +10,12 @@ import Game from "../game/Game";
 import CreateGame from "../game/CreateGame";
 import JoinGame from "../game/JoinGame";
 import ViewGames from "../game/ViewGames";
-import StartGame from "../game/StartGame";
 import UserCheck from "../protected/UserCheck";
 import AdminPage from "../admin/AdminPage";
 import AdminUsers from "../admin/AdminUsers";
 import AdminGames from "../admin/AdminGames";
 import AdminPlayers from "../admin/AdminPlayers";
+import Winners from "../game/Winners";
 
 import ViewBoard from "../game/ViewBoard";
 
@@ -33,7 +33,6 @@ function Routing() {
           <Route path="games/create" element={<CreateGame />} />
           <Route path="games/join" element={<JoinGame />} />
           <Route path="games/view" element={<ViewGames />} />
-          <Route path="games/:gameId" element={<StartGame />} />
           <Route path="users" element={<UserCheck />} />
           <Route path="admin" element={<AdminPage />} />
           <Route path="admingames" element={<AdminGames />} />
@@ -41,6 +40,7 @@ function Routing() {
           <Route path="Adminusers" element={<AdminUsers />} />
 
           <Route path="view/:gameId" element={<ViewBoard />} />
+          <Route path="winners/:gameId" element={<Winners />} />
 
         </Route>
       </Routes>

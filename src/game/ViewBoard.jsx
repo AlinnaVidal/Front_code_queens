@@ -23,6 +23,8 @@ import plus4 from "../assets/tablero/por_4.png";
 // Piezas
 import Pieces from "./PieceImages";
 
+
+
 function setCellColor(color) {
   if (color == "R") {
     return redB;

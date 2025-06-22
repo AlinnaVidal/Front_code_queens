@@ -1,0 +1,16 @@
+.black_text {
+  color: #5d5e5a;
+  font-weight: bold;
+  size: 40; 
+  text-align: center
+}
+
+.trofeo {
+  display: block;
+  width:50%;
+  height: 50%;
+  display: block;
+  margin: 0 auto;
+  justify-content: center; 
+  align-items: center;  
+}
