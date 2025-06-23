@@ -232,11 +232,18 @@ function PlayersInfo({ players }) {
 
 function makePlayer(el)
 {
-  return(
-    <div className="black_text" key={el.id}>
-      <div key={`${el.id}-1`}>{`Nombre de usuario: ${el.username}`}</div>
-      <div key={`${el.id}-2`}>{`Puntos: ${el.points}`}</div>
-      <div key={`${el.id}-3`}>{`Monedas: ${el.coins}`}</div>
+  return( 
+    <div>
+      <div key={el.id}>
+      <div className={`container_${el.color}`}> 
+        <div key={`${el.id}-1`}>{`${el.username}`}</div>
+        <div key={`${el.id}-2`}>{`Puntos: ${el.points}`}</div>
+        <div key={`${el.id}-3`}>{`Monedas: ${el.coins}`}</div>
+      </div>
+      </div>
+      <div>
+        &nbsp;
+      </div>
     </div>
   );
 }
@@ -348,33 +355,54 @@ function ViewBoard() {
     <div className="container2">
       <div className="box2 izq" >
         <div className="black_text">
-              Tus Datos:
         </div>
         <div className="black_text">
           {`${player.turn? "Es tu turno": "No es tu turno"}`}
         </div>
-        <div className="black_text">
-          {`Monedas: ${player.coins}`}
+          <div className="black_text">
+              &nbsp;
         </div>
-        <div className="black_text">
-          {`Puntos: ${player.points}`}
-        </div>
-        <div className="black_text">
-          {`Power ups: ${player.power_ups != undefined ? player.power_ups: "Ninguno"}`}
+        <div  className={`container_${player.color}`}>
+          <div className="black_text_no_bold">
+            {`Monedas: ${player.coins}`}
+          </div>
+          <div className="black_text_no_bold">
+          {`Puntos: ${player.points} `}
+          </div>
+          <div className="black_text_no_bold">
+          {`Power-up: ${player.power_ups != undefined ? player.power_ups: "No"}`}
+          </div>
         </div>
         <div className="black_text">
               &nbsp;
         </div>
+        <div className="black_text">
+              Power ups
+        </div>
         <>
-          <img  className="img" src={dado} alt="Dado" />
-          <img  className="img" src={bomba1} alt="Bomba" />
-          <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
-          <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
+          <div className="item">
+            <img  className="img" src={dado} alt="Dado" />
+            <div  className="black_text_no_bold">Powerup al azar, o ninguno</div>
+          </div>
+          &nbsp;
+          <div className="item">
+            <img  className="img" src={bomba1} alt="Bomba" />
+            <div  className="black_text_no_bold">Elimina una pieza del rival</div>
+          </div>
+          &nbsp;
+          <div className="item">
+            <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
+            <div  className="black_text_no_bold">Quita puntos al rival elegido</div>
+          </div>
+          &nbsp;
+          <div className="item">
+            <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
+            <div  className="black_text_no_bold">Pon un bloque, sin restricciones</div>
+          </div>
           <div className="black_text">
-                 &nbsp;
-
-            <div className="black_text" >
-                El estado del juego es: {game.state}
+            &nbsp;
+          <div className="black_text" >
+                Estado: {game.state}
             </div>
           </div>
 
@@ -399,8 +427,15 @@ function ViewBoard() {
         {Board(gameId, token, addBoard, board, setBoard)}
       </div>
       <div className="box2 der">
+        <div className="black_text">
+              Rivales:
+        </div>
+        &nbsp;
         <PlayersInfo players={players} />
+      </div>
+      <div className="box2 der2">
         <PiecesContainer gameId={gameId} userId={userId} token={token} callback={addPiece} pieces={pieces} setPieces={setPieces} rotation={rotation} />
+
       </div>
     </div>);
 
