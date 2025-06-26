@@ -5,10 +5,13 @@ import { AuthContext } from "../auth/AuthContext";
 import img_logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 
+
 function LandingPage() {
 
   const [ setGames] = useState([]);
   const { user } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
+  console.log(token)
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/games`)
