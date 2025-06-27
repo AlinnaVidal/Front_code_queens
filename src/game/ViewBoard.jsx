@@ -136,7 +136,7 @@ function Board({ gameId, token, callback, board, setBoard, refreshTrigger, highl
 
     fetchBoard(); // primera carga
 
-    const interval = setInterval(fetchBoard, 20000); // cada 20 segundos
+    const interval = setInterval(fetchBoard, 2000); // cada 2 segundos
 
     return () => clearInterval(interval); // limpiar intervalo al desmontar
   }, [gameId, refreshTrigger]);
@@ -333,26 +333,43 @@ function turnLeft(rotation, setRotation){
 function rotatePiece(structure, direction) {
   const rows = structure.length;
   const cols = structure[0].length;
-  let rotated;
 
   if (direction === "U") {
-    return structure;
+    return structure.map(row => [...row]);
   }
 
   if (direction === "D") {
-    rotated = structure.map(row => [...row]).reverse().map(row => row.reverse());
-  } else if (direction === "R") {
-    rotated = Array.from({ length: cols }, (_, i) =>
-      structure.map(row => row[i]).reverse()
-    );
-  } else if (direction === "L") {
-    rotated = Array.from({ length: cols }, (_, i) =>
-      structure.map(row => row[cols - 1 - i])
-    ).reverse();
+    return structure.map(row => [...row].reverse()).reverse();
   }
 
-  return rotated;
+  if (direction === "R") {
+    const rotated = [];
+    for (let col = 0; col < cols; col++) {
+      const newRow = [];
+      for (let row = rows - 1; row >= 0; row--) {
+        newRow.push(structure[row][col]);
+      }
+      rotated.push(newRow);
+    }
+    return rotated;
+  }
+
+  if (direction === "L") {
+    const rotated = [];
+    for (let col = cols - 1; col >= 0; col--) {
+      const newRow = [];
+      for (let row = 0; row < rows; row++) {
+        newRow.push(structure[row][col]);
+      }
+      rotated.push(newRow);
+    }
+    return rotated;
+  }
+
+  return structure;
 }
+
+
 
 function getAffectedCells(position, pieceName, rotation) {
   if (!pieceName || !position) return [];
@@ -478,7 +495,7 @@ function ViewBoard() {
         .then(data => setBoard(data))
         .catch(err => console.error("Error al refrescar tablero:", err));
 
-    }, 20000); //refresca cada 20s
+    }, 2000); //refresca cada 2s
     return () => clearInterval(interval); 
   }, [userId, gameId]);
 
