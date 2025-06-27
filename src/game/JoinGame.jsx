@@ -22,8 +22,8 @@ function JoinGame() {
           `${import.meta.env.VITE_BACKEND_URL}/games`, { headers: { Authorization: `Bearer ${token}` } });
 
         const allGames = res.data;
-        const filteredGames = allGames.filter((game) => game.state === "waiting" || game.state === "playing");
-        setGames(filteredGames);
+        const waitingGames = allGames.filter(game => game.state === "waiting" || game.state === "playing" );
+        setGames(waitingGames);
 
         const joinedIds = await Promise.all(
           allGames.map(async (game) => {
@@ -70,6 +70,7 @@ function JoinGame() {
   return (
     <div className="join-game-container">
       <h2>Unirse a Partida</h2>
+
 
       {message && <p className="join-game-message">{message}</p>}
 
