@@ -239,16 +239,16 @@ function PiecesContainer({gameId, userId, token, callback, pieces, setPieces, ro
           {groups.map((group, index) => (
             <div className="pieces-group" key={index}>
              {group.map((piece, idx) => (
-  <img
-    className={`img${getWidth(piece)} rotated-${rotation}`}
-    onClick={() => {callback(piece);}}
-    key={`${index}-${idx}`}
-    src={setPiece(color, piece)}
-    alt={`pieza-${piece}`}
-  />
-))}
+        <img
+          className={`img${getWidth(piece)} rotated-${rotation}`}
+          onClick={() => {callback(piece);}}
+          key={`${index}-${idx}`}
+          src={setPiece(color, piece)}
+          alt={`pieza-${piece}`}
+        />
+      ))}
 
-            </div>
+          </div>
           ))}
         </div>
       </div>
@@ -290,8 +290,6 @@ function currentPiece(piece, rotation, color, callback, turn, setRotation){
   <div className="curr_container">No puedes seleccionar piezas</div>)
 
 }
-
-
 
 
 function makePlayer(el)
@@ -558,19 +556,19 @@ function ViewBoard() {
         </>
       </div>
       <div className="box2 center">
-  <Board
-    gameId={gameId}
-    token={token}
-    callback={addBoard}
-    board={board}
-    setBoard={setBoard}
-    highlightCells={highlightCells}
-    setHighlightCells={setHighlightCells}
-    piece={piece}
-    rotation={rotation}
-    player={player} 
-  />
-</div>
+      <Board
+        gameId={gameId}
+        token={token}
+        callback={addBoard}
+        board={board}
+        setBoard={setBoard}
+        highlightCells={highlightCells}
+        setHighlightCells={setHighlightCells}
+        piece={piece}
+        rotation={rotation}
+        player={player} 
+      />
+    </div>
 
       <div className="box2 der">
         <div className="black_text">
