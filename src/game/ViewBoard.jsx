@@ -147,14 +147,6 @@ function Board({ gameId, token, callback, board, setBoard, refreshTrigger, highl
     return <div>Error: el tablero no tiene el formato esperado.</div>;
   }
 
-  for (let i = 0; i < board.length; i++) {
-    console.error(`Fila ${i}`, JSON.stringify(board[i], null, 2));
-    if (!Array.isArray(board[i])) {
-      console.error(`Fila ${i} del board no es un array:`, JSON.stringify(board[i], null, 2));
-
-      return <div>Error: fila inválida en el tablero.</div>;
-    }
-  }
 
   return (
     <div className="board">
