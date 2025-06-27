@@ -34,7 +34,7 @@ export default function AdminPlayers() {
     }
 
     if (window.confirm("¿Quieres eliminarlo?")) {
-      fetch(`http://localhost:3000/users/${id}`, { method: "DELETE",
+      fetch(`http://localhost:3000/players/${id}`, { method: "DELETE",
         headers: { "Authorization": `Bearer ${token}`,"Content-Type": "application/json" } })
         .then(() => {
           setPlayers(prev => prev.filter(player => player.id !== id));
