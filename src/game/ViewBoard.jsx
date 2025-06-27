@@ -136,7 +136,7 @@ function Board({ gameId, token, callback, board, setBoard, refreshTrigger, highl
 
     fetchBoard(); // primera carga
 
-    const interval = setInterval(fetchBoard, 2000); // cada 2 segundos
+    const interval = setInterval(fetchBoard, 3000); // cada 3 segundos
 
     return () => clearInterval(interval); // limpiar intervalo al desmontar
   }, [gameId, refreshTrigger]);
@@ -487,7 +487,7 @@ function ViewBoard() {
         .then(data => setBoard(data))
         .catch(err => console.error("Error al refrescar tablero:", err));
 
-    }, 2000); //refresca cada 2s
+    }, 3000); //refresca cada 3s
     return () => clearInterval(interval); 
   }, [userId, gameId]);
 
