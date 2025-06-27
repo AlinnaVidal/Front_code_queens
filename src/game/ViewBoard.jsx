@@ -87,7 +87,33 @@ function setPiece(color, name) {
   }
 }
 
-function Board(gameId, token, callback, board, setBoard, refreshTrigger) {
+  const basePieces = {
+        "1": [["X"]],
+        "2": [["X", "X"]],
+        "3A": [["X", "X", "X"]],
+        "4A": [["X", "X", "X", "X"]],
+        "5A": [["X", "X", "X", "X", "X"]],
+        "3B": [["X", "X"], ["-", "X"]],
+        "4B": [["X", "X", "X"], ["-", "-", "X"]],
+        "5B": [["X", "X", "X", "X"], ["-", "-", "-", "X"]],
+        "5F": [["-", "X", "-"], ["X", "X", "X"], ["-", "X", "-"]],
+        "5I": [["-", "X", "-", "-"], ["X", "X", "X", "X"]],
+        "4C": [["X", "X", "-"], ["-", "X", "X"]],
+        "5C": [["X", "X", "-", "-"], ["-", "X", "X", "X"]],
+        "4D": [["X", "X"], ["X", "X"]],
+        "5D": [["X", "X", "X"], ["X", "X", "-"]],
+        "4E": [["X", "X", "X"], ["-", "X", "-"]],
+        "5E": [["X", "X", "X"], ["-", "X", "-"], ["-", "X", "-"]],
+        "5G": [["X", "-", "-"], ["X", "-", "-"], ["X", "X", "X"]],
+        "5J": [["X", "X", "-"], ["-", "X", "-"], ["-", "X", "X"]],
+        "5H": [["X", "-", "-"], ["X", "X", "-"], ["-", "X", "X"]],
+        "5K": [["X", "X", "-"], ["-", "X", "X"], ["-", "X", "-"]],
+      };
+
+function Board({ gameId, token, callback, board, setBoard, refreshTrigger, highlightCells, setHighlightCells, piece, rotation, player}) {
+  
+
+
 
   useEffect(() => {
     const fetchBoard = () => {
@@ -110,7 +136,7 @@ function Board(gameId, token, callback, board, setBoard, refreshTrigger) {
 
     fetchBoard(); // primera carga
 
-    const interval = setInterval(fetchBoard, 2000); // cada 2 segundos
+    const interval = setInterval(fetchBoard, 20000); // cada 20 segundos
 
     return () => clearInterval(interval); // limpiar intervalo al desmontar
   }, [gameId, refreshTrigger]);
@@ -134,16 +160,31 @@ function Board(gameId, token, callback, board, setBoard, refreshTrigger) {
     <div className="board">
       {board.map((board_row, row) => (
         <div key={row} className="row">
-          {board_row.map((value, col) => (
-            <img
-              onClick={() => {
-                callback([row, col]);}}
-              key={`${row}-${col}`}
-              src={setCellColor(value)}
-              alt='celda'
-              className="cell"
-            />
-          ))}
+          {board_row.map((value, col) => {
+            const isHighlighted = Array.isArray(highlightCells) &&
+              highlightCells.some(([r, c]) => r === row && c === col);
+
+            const cellValue = isHighlighted && piece && player.color
+              ? player.color[0].toUpperCase()
+              : value;
+
+            return (
+              <img
+                onClick={() => callback([row, col])}
+                onMouseEnter={() => {
+                  if (piece) {
+                    const affected = getAffectedCells([row, col], piece, rotation);
+                    setHighlightCells(affected);
+                  }
+                }}
+                onMouseLeave={() => setHighlightCells([])}
+                key={`${row}-${col}`}
+                src={setCellColor(cellValue)}
+                alt="celda"
+                className="cell"
+              />
+            );
+          })}
         </div>
       ))}
     </div>
@@ -198,16 +239,16 @@ function PiecesContainer({gameId, userId, token, callback, pieces, setPieces, ro
           {groups.map((group, index) => (
             <div className="pieces-group" key={index}>
              {group.map((piece, idx) => (
-  <img
-    className={`img${getWidth(piece)} rotated-${rotation}`}
-    onClick={() => {callback(piece);}}
-    key={`${index}-${idx}`}
-    src={setPiece(color, piece)}
-    alt={`pieza-${piece}`}
-  />
-))}
+        <img
+          className={`img${getWidth(piece)} rotated-${rotation}`}
+          onClick={() => {callback(piece);}}
+          key={`${index}-${idx}`}
+          src={setPiece(color, piece)}
+          alt={`pieza-${piece}`}
+        />
+      ))}
 
-            </div>
+          </div>
           ))}
         </div>
       </div>
@@ -228,6 +269,27 @@ function PlayersInfo({ players }) {
   );
 }
 
+function currentPiece(piece, rotation, color, callback, turn, setRotation){
+  return(turn? piece?
+    <div className="curr_container">
+      <div className="curr_piece">
+      <img
+    // ARREGLAAAR -> if pieza seleccionada ver bien llaves e id
+      className={`img${getWidth(piece)} rotated-${rotation} curr_img`}
+      onClick={() => {callback(piece);}}
+      src={setPiece(color, piece)}
+      alt={`pieza-${piece}`}
+    />
+    </div>
+    <div className="curr_buttons">
+    <button className={"rotate_button"} onClick={() => {turnLeft(rotation, setRotation)}}>◀</button>
+    <button className={"rotate_button"} onClick={() => {turnRight(rotation, setRotation)}}>▶</button>          
+    </div>
+  </div>: 
+  <div className="curr_container">No has seleccionado ninguna pieza</div>: 
+  <div className="curr_container">No puedes seleccionar piezas</div>)
+
+}
 
 
 function makePlayer(el)
@@ -248,6 +310,73 @@ function makePlayer(el)
   );
 }
 
+function turnRight(rotation, setRotation){
+  const nextRotation = {
+      "U": "R",
+      "R": "D",
+      "D": "L",
+      "L": "U"
+    }[rotation];
+    setRotation(nextRotation);
+}
+
+function turnLeft(rotation, setRotation){
+  const nextRotation = {
+      "U": "L",
+      "L": "D",
+      "D": "R",
+      "R": "U"
+    }[rotation];
+  setRotation(nextRotation);
+}
+
+function rotatePiece(structure, direction) {
+  const rows = structure.length;
+  const cols = structure[0].length;
+  let rotated;
+
+  if (direction === "U") {
+    return structure;
+  }
+
+  if (direction === "D") {
+    rotated = structure.map(row => [...row]).reverse().map(row => row.reverse());
+  } else if (direction === "R") {
+    rotated = Array.from({ length: cols }, (_, i) =>
+      structure.map(row => row[i]).reverse()
+    );
+  } else if (direction === "L") {
+    rotated = Array.from({ length: cols }, (_, i) =>
+      structure.map(row => row[cols - 1 - i])
+    ).reverse();
+  }
+
+  return rotated;
+}
+
+function getAffectedCells(position, pieceName, rotation) {
+  if (!pieceName || !position) return [];
+
+  const [baseStructure] = [basePieces[pieceName]];
+  if (!baseStructure) return [];
+
+  const rotatedStructure = rotatePiece(baseStructure, rotation);
+  const affectedCells = [];
+  const [startRow, startCol] = position;
+
+  rotatedStructure.forEach((row, i) => {
+    row.forEach((cell, j) => {
+      if (cell === "X") {
+        affectedCells.push([startRow + i, startCol + j]);
+      }
+    });
+  });
+
+  return affectedCells;
+}
+
+
+
 function ViewBoard() {
   const { token } = useContext(AuthContext);
   const { gameId } = useParams();
@@ -263,11 +392,14 @@ function ViewBoard() {
 
   const [game, setGame] = useState({});
   const [player, setPlayer] = useState({});
-  const [piece, setPiece] = useState({});
+  const [piece, setPiece] = useState(null);
   const [board, setBoard] = useState([]);
 
   const [message, setMessage] = useState("");
   const [pieces, setPieces] = useState([]);
+
+  const [highlightCells, setHighlightCells] = useState([]);
+
 
   async function surrender( player_id) {
     try {
@@ -346,7 +478,7 @@ function ViewBoard() {
         .then(data => setBoard(data))
         .catch(err => console.error("Error al refrescar tablero:", err));
 
-    }, 2000); //refresca cada 2s
+    }, 20000); //refresca cada 20s
     return () => clearInterval(interval); 
   }, [userId, gameId]);
 
@@ -424,17 +556,33 @@ function ViewBoard() {
         </>
       </div>
       <div className="box2 center">
-        {Board(gameId, token, addBoard, board, setBoard)}
-      </div>
+      <Board
+        gameId={gameId}
+        token={token}
+        callback={addBoard}
+        board={board}
+        setBoard={setBoard}
+        highlightCells={highlightCells}
+        setHighlightCells={setHighlightCells}
+        piece={piece}
+        rotation={rotation}
+        player={player} 
+      />
+    </div>
+
       <div className="box2 der">
         <div className="black_text">
-              Rivales:
+            Rivales:
         </div>
         &nbsp;
         <PlayersInfo players={players} />
+        <div className="black_text">
+            Pieza actual:
+        </div> 
+        {currentPiece(piece, rotation, player.color, addPiece, player.turn, setRotation)}
       </div>
       <div className="box2 der2">
-        <PiecesContainer gameId={gameId} userId={userId} token={token} callback={addPiece} pieces={pieces} setPieces={setPieces} rotation={rotation} />
+        <PiecesContainer gameId={gameId} userId={userId} token={token} callback={addPiece} pieces={pieces} setPieces={setPieces} rotation={"U"} />
 
       </div>
     </div>);
@@ -463,7 +611,10 @@ function ViewBoard() {
   function addBoard(position) {
     let player_id = player.id;
     if (piece != null) {
+      const affected = getAffectedCells(position, piece, rotation);
+      setHighlightCells(affected);
       console.log("TRYING TO FETCH");
+      console.log(`ROTATION ${rotation}`)
       fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/move`, {
         method: "POST",
         headers: {
@@ -473,7 +624,7 @@ function ViewBoard() {
         body: JSON.stringify({
           player: `${player_id}`,
           piece_type: `${piece}`,
-          rotation: rotation,
+          rotation: `${rotation}`,
           position: `[${position}]`
         })
       })
