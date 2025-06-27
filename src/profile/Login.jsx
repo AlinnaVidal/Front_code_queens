@@ -32,6 +32,7 @@ export default function Login() {
       setToken(access_token);
       setUser(user);
       navigate("/");
+      console.log("TOKEN:",access_token )
 
     } catch (error) {
       console.error("Login error:", error);
