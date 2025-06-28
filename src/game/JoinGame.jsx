@@ -71,7 +71,6 @@ function JoinGame() {
     <div className="join-game-container">
       <h2>Unirse a Partida</h2>
 
-
       {message && <p className="join-game-message">{message}</p>}
 
       <ul className="join-game-list">

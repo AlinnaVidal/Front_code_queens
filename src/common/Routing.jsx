@@ -4,7 +4,6 @@ import { useContext } from "react";
 import { AuthContext } from "../auth/AuthContext";
 import { Navigate } from "react-router-dom";
 
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Instructions from "../game/Instructions";
 import App from "./App";
@@ -25,24 +24,10 @@ import Winners from "../game/Winners";
 
 import ViewBoard from "../game/ViewBoard";
 
-
-
-function isTokenValid(token) {
-  if (!token) return false;
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const now = Math.floor(Date.now() / 1000);
-    return payload.exp > now;
-  } catch {
-    return false;
-  }
-}
-
 function Routing() {
   const { user } = useContext(AuthContext);
   const { token } = useContext(AuthContext);
-  const isAuthenticated = isTokenValid(token);
-  console.log(token)
+  console.log(token);
   return (
     <BrowserRouter>
       <Routes>

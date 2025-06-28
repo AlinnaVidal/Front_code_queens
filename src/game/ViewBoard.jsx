@@ -23,8 +23,6 @@ import plus4 from "../assets/tablero/por_4.png";
 // Piezas
 import Pieces from "./PieceImages";
 
-
-
 function setCellColor(color) {
   if (color == "R") {
     return redB;
@@ -87,33 +85,30 @@ function setPiece(color, name) {
   }
 }
 
-  const basePieces = {
-        "1": [["X"]],
-        "2": [["X", "X"]],
-        "3A": [["X", "X", "X"]],
-        "4A": [["X", "X", "X", "X"]],
-        "5A": [["X", "X", "X", "X", "X"]],
-        "3B": [["X", "X"], ["-", "X"]],
-        "4B": [["X", "X", "X"], ["-", "-", "X"]],
-        "5B": [["X", "X", "X", "X"], ["-", "-", "-", "X"]],
-        "5F": [["-", "X", "-"], ["X", "X", "X"], ["-", "X", "-"]],
-        "5I": [["-", "X", "-", "-"], ["X", "X", "X", "X"]],
-        "4C": [["X", "X", "-"], ["-", "X", "X"]],
-        "5C": [["X", "X", "-", "-"], ["-", "X", "X", "X"]],
-        "4D": [["X", "X"], ["X", "X"]],
-        "5D": [["X", "X", "X"], ["X", "X", "-"]],
-        "4E": [["X", "X", "X"], ["-", "X", "-"]],
-        "5E": [["X", "X", "X"], ["-", "X", "-"], ["-", "X", "-"]],
-        "5G": [["X", "-", "-"], ["X", "-", "-"], ["X", "X", "X"]],
-        "5J": [["X", "X", "-"], ["-", "X", "-"], ["-", "X", "X"]],
-        "5H": [["X", "-", "-"], ["X", "X", "-"], ["-", "X", "X"]],
-        "5K": [["X", "X", "-"], ["-", "X", "X"], ["-", "X", "-"]],
-      };
+const basePieces = {
+  "1": [["X"]],
+  "2": [["X", "X"]],
+  "3A": [["X", "X", "X"]],
+  "4A": [["X", "X", "X", "X"]],
+  "5A": [["X", "X", "X", "X", "X"]],
+  "3B": [["X", "X"], ["-", "X"]],
+  "4B": [["X", "X", "X"], ["-", "-", "X"]],
+  "5B": [["X", "X", "X", "X"], ["-", "-", "-", "X"]],
+  "5F": [["-", "X", "-"], ["X", "X", "X"], ["-", "X", "-"]],
+  "5I": [["-", "X", "-", "-"], ["X", "X", "X", "X"]],
+  "4C": [["X", "X", "-"], ["-", "X", "X"]],
+  "5C": [["X", "X", "-", "-"], ["-", "X", "X", "X"]],
+  "4D": [["X", "X"], ["X", "X"]],
+  "5D": [["X", "X", "X"], ["X", "X", "-"]],
+  "4E": [["X", "X", "X"], ["-", "X", "-"]],
+  "5E": [["X", "X", "X"], ["-", "X", "-"], ["-", "X", "-"]],
+  "5G": [["X", "-", "-"], ["X", "-", "-"], ["X", "X", "X"]],
+  "5J": [["X", "X", "-"], ["-", "X", "-"], ["-", "X", "X"]],
+  "5H": [["X", "-", "-"], ["X", "X", "-"], ["-", "X", "X"]],
+  "5K": [["X", "X", "-"], ["-", "X", "X"], ["-", "X", "-"]],
+};
 
 function Board({ gameId, token, callback, board, setBoard, refreshTrigger, highlightCells, setHighlightCells, piece, rotation, player}) {
-  
-
-
 
   useEffect(() => {
     const fetchBoard = () => {
@@ -140,13 +135,11 @@ function Board({ gameId, token, callback, board, setBoard, refreshTrigger, highl
 
     return () => clearInterval(interval); // limpiar intervalo al desmontar
   }, [gameId, refreshTrigger]);
-  
 
   if (!Array.isArray(board)) {
     console.error("Board no es un array:", board);
     return <div>Error: el tablero no tiene el formato esperado.</div>;
   }
-
 
   return (
     <div className="board">
@@ -230,17 +223,17 @@ function PiecesContainer({gameId, userId, token, callback, pieces, setPieces, ro
         >
           {groups.map((group, index) => (
             <div className="pieces-group" key={index}>
-             {group.map((piece, idx) => (
-        <img
-          className={`img${getWidth(piece)} rotated-${rotation}`}
-          onClick={() => {callback(piece);}}
-          key={`${index}-${idx}`}
-          src={setPiece(color, piece)}
-          alt={`pieza-${piece}`}
-        />
-      ))}
+              {group.map((piece, idx) => (
+                <img
+                  className={`img${getWidth(piece)} rotated-${rotation}`}
+                  onClick={() => {callback(piece);}}
+                  key={`${index}-${idx}`}
+                  src={setPiece(color, piece)}
+                  alt={`pieza-${piece}`}
+                />
+              ))}
 
-          </div>
+            </div>
           ))}
         </div>
       </div>
@@ -261,39 +254,38 @@ function PlayersInfo({ players }) {
   );
 }
 
-function currentPiece(piece, rotation, color, callback, turn, setRotation){
+function currentPiece(piece, rotation, color, callback, turn, setRotation) {
   return(turn? piece?
     <div className="curr_container">
       <div className="curr_piece">
-      <img
-    // ARREGLAAAR -> if pieza seleccionada ver bien llaves e id
-      className={`img${getWidth(piece)} rotated-${rotation} curr_img`}
-      onClick={() => {callback(piece);}}
-      src={setPiece(color, piece)}
-      alt={`pieza-${piece}`}
-    />
-    </div>
-    <div className="curr_buttons">
-    <button className={"rotate_button"} onClick={() => {turnLeft(rotation, setRotation)}}>◀</button>
-    <button className={"rotate_button"} onClick={() => {turnRight(rotation, setRotation)}}>▶</button>          
-    </div>
-  </div>: 
-  <div className="curr_container">No has seleccionado ninguna pieza</div>: 
-  <div className="curr_container">No puedes seleccionar piezas</div>)
+        <img
+          // ARREGLAAAR -> if pieza seleccionada ver bien llaves e id
+          className={`img${getWidth(piece)} rotated-${rotation} curr_img`}
+          onClick={() => {callback(piece);}}
+          src={setPiece(color, piece)}
+          alt={`pieza-${piece}`}
+        />
+      </div>
+      <div className="curr_buttons">
+        <button className={"rotate_button"} onClick={() => {turnLeft(rotation, setRotation);}}>◀</button>
+        <button className={"rotate_button"} onClick={() => {turnRight(rotation, setRotation);}}>▶</button>
+      </div>
+    </div>:
+    <div className="curr_container">No has seleccionado ninguna pieza</div>:
+    <div className="curr_container">No puedes seleccionar piezas</div>);
 
 }
 
-
 function makePlayer(el)
 {
-  return( 
+  return(
     <div>
       <div key={el.id}>
-      <div className={`container_${el.color}`}> 
-        <div key={`${el.id}-1`}>{`${el.username}`}</div>
-        <div key={`${el.id}-2`}>{`Puntos: ${el.points}`}</div>
-        <div key={`${el.id}-3`}>{`Monedas: ${el.coins}`}</div>
-      </div>
+        <div className={`container_${el.color}`}>
+          <div key={`${el.id}-1`}>{`${el.username}`}</div>
+          <div key={`${el.id}-2`}>{`Puntos: ${el.points}`}</div>
+          <div key={`${el.id}-3`}>{`Monedas: ${el.coins}`}</div>
+        </div>
       </div>
       <div>
         &nbsp;
@@ -302,23 +294,23 @@ function makePlayer(el)
   );
 }
 
-function turnRight(rotation, setRotation){
+function turnRight(rotation, setRotation) {
   const nextRotation = {
-      "U": "R",
-      "R": "D",
-      "D": "L",
-      "L": "U"
-    }[rotation];
-    setRotation(nextRotation);
+    "U": "R",
+    "R": "D",
+    "D": "L",
+    "L": "U"
+  }[rotation];
+  setRotation(nextRotation);
 }
 
-function turnLeft(rotation, setRotation){
+function turnLeft(rotation, setRotation) {
   const nextRotation = {
-      "U": "L",
-      "L": "D",
-      "D": "R",
-      "R": "U"
-    }[rotation];
+    "U": "L",
+    "L": "D",
+    "D": "R",
+    "R": "U"
+  }[rotation];
   setRotation(nextRotation);
 }
 
@@ -361,8 +353,6 @@ function rotatePiece(structure, direction) {
   return structure;
 }
 
-
-
 function getAffectedCells(position, pieceName, rotation) {
   if (!pieceName || !position) return [];
 
@@ -384,8 +374,6 @@ function getAffectedCells(position, pieceName, rotation) {
   return affectedCells;
 }
 
-
-
 function ViewBoard() {
   const { token } = useContext(AuthContext);
   const { gameId } = useParams();
@@ -394,7 +382,6 @@ function ViewBoard() {
   const [ setScores] = useState({});
   const [setCurrentTurn] = useState(null);
   const [players, setPlayers] = useState([]);
-
 
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user ? parseInt(user.id) : null;
@@ -408,7 +395,6 @@ function ViewBoard() {
   const [pieces, setPieces] = useState([]);
 
   const [highlightCells, setHighlightCells] = useState([]);
-
 
   async function surrender( player_id) {
     try {
@@ -472,25 +458,24 @@ function ViewBoard() {
         .then(res => res.json())
         .then(data => {
           setGame(data);
-          setCurrentTurn(data.current_turn); 
+          setCurrentTurn(data.current_turn);
           setScores(data.scores);
         })
         .catch(err => console.error("Error al refrescar juego:", err));
 
       //actualiza datos de los jugadores
       fetch(`${import.meta.env.VITE_BACKEND_URL}/players/game/${gameId}/${userId}`)
-            .then(res => res.json())
-            .then(data => setPlayers(data))
-            .catch(err => console.error('Error al refrescar jugadores:', err));
+        .then(res => res.json())
+        .then(data => setPlayers(data))
+        .catch(err => console.error("Error al refrescar jugadores:", err));
       fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/board/${gameId}`)
         .then(res => res.json())
         .then(data => setBoard(data))
         .catch(err => console.error("Error al refrescar tablero:", err));
 
     }, 3000); //refresca cada 3s
-    return () => clearInterval(interval); 
+    return () => clearInterval(interval);
   }, [userId, gameId]);
-
 
   return (
     <div className="container2">
@@ -500,7 +485,7 @@ function ViewBoard() {
         <div className="black_text">
           {`${player.turn? "Es tu turno": "No es tu turno"}`}
         </div>
-          <div className="black_text">
+        <div className="black_text">
               &nbsp;
         </div>
         <div  className={`container_${player.color}`}>
@@ -508,10 +493,10 @@ function ViewBoard() {
             {`Monedas: ${player.coins}`}
           </div>
           <div className="black_text_no_bold">
-          {`Puntos: ${player.points} `}
+            {`Puntos: ${player.points} `}
           </div>
           <div className="black_text_no_bold">
-          {`Power-up: ${player.power_ups != undefined ? player.power_ups: "No"}`}
+            {`Power-up: ${player.power_ups != undefined ? player.power_ups: "No"}`}
           </div>
         </div>
         <div className="black_text">
@@ -542,7 +527,7 @@ function ViewBoard() {
           </div>
           <div className="black_text">
             &nbsp;
-          <div className="black_text" >
+            <div className="black_text" >
                 Estado: {game.state}
             </div>
           </div>
@@ -565,19 +550,19 @@ function ViewBoard() {
         </>
       </div>
       <div className="box2 center">
-      <Board
-        gameId={gameId}
-        token={token}
-        callback={addBoard}
-        board={board}
-        setBoard={setBoard}
-        highlightCells={highlightCells}
-        setHighlightCells={setHighlightCells}
-        piece={piece}
-        rotation={rotation}
-        player={player} 
-      />
-    </div>
+        <Board
+          gameId={gameId}
+          token={token}
+          callback={addBoard}
+          board={board}
+          setBoard={setBoard}
+          highlightCells={highlightCells}
+          setHighlightCells={setHighlightCells}
+          piece={piece}
+          rotation={rotation}
+          player={player}
+        />
+      </div>
 
       <div className="box2 der">
         <div className="black_text">
@@ -587,7 +572,7 @@ function ViewBoard() {
         <PlayersInfo players={players} />
         <div className="black_text">
             Pieza actual:
-        </div> 
+        </div>
         {currentPiece(piece, rotation, player.color, addPiece, player.turn, setRotation)}
       </div>
       <div className="box2 der2">
@@ -598,24 +583,23 @@ function ViewBoard() {
 
   // Setea pieza que se quiere agregar
   function addPiece(pieceClicked) {
-  if (piece && piece === pieceClicked) {
+    if (piece && piece === pieceClicked) {
     // Rota la pieza seleccionada
-    const nextRotation = {
-      "U": "R",
-      "R": "D",
-      "D": "L",
-      "L": "U"
-    }[rotation];
-    setRotation(nextRotation);
-  } else {
+      const nextRotation = {
+        "U": "R",
+        "R": "D",
+        "D": "L",
+        "L": "U"
+      }[rotation];
+      setRotation(nextRotation);
+    } else {
     // Selecciona nueva pieza y resetea rotación
-    setPiece(pieceClicked);
-    setRotation("U");
+      setPiece(pieceClicked);
+      setRotation("U");
+    }
+
+    console.log(`Pieza actual: ${pieceClicked}, rotación: ${rotation}`);
   }
-
-  console.log(`Pieza actual: ${pieceClicked}, rotación: ${rotation}`);
-}
-
 
   function addBoard(position) {
     let player_id = player.id;
@@ -623,7 +607,7 @@ function ViewBoard() {
       const affected = getAffectedCells(position, piece, rotation);
       setHighlightCells(affected);
       console.log("TRYING TO FETCH");
-      console.log(`ROTATION ${rotation}`)
+      console.log(`ROTATION ${rotation}`);
       fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/move`, {
         method: "POST",
         headers: {
@@ -677,9 +661,6 @@ function ViewBoard() {
         .catch(err => console.error("Error en la secuencia de movimientos:", err));
     }
   }
-
-  
-  
 
 }
 

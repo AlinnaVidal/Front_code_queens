@@ -4,7 +4,6 @@ import "../common/Root.css";
 import { AuthContext } from "../auth/AuthContext";
 import axios from "axios";
 
-
 export default function AdminGames() {
   const [games, setGames] = useState([]);
   const [ setJoinedGames] = useState([]);
