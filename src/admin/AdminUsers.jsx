@@ -33,7 +33,7 @@ export default function AdminGames() {
       return;
     }
     if (window.confirm("¿Quieres eliminarlo?")) {
-      fetch(`http://localhost:3000/users/${id}`, { method: "DELETE",
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/users/${id}`, { method: "DELETE",
         headers: { "Authorization": `Bearer ${token}`,"Content-Type": "application/json" } })
         .then(() => {
           setUsers(prev => prev.filter(user => user.id !== id));

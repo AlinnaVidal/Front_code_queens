@@ -51,7 +51,7 @@ export default function AdminGames() {
     }
 
     if (window.confirm("¿Quieres eliminarlo?")) {
-      fetch(`http://localhost:3000/games/${id}`, { method: "DELETE" ,
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/games/${id}`, { method: "DELETE" ,
         headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json" }
