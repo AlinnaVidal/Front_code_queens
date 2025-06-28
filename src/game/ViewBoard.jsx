@@ -514,21 +514,26 @@ function ViewBoard() {
           <div className="item">
             <img  className="img" src={dado} alt="Dado" />
             <div  className="black_text_no_bold">Powerup al azar, o ninguno</div>
+            <div className="black_text_no_bold">Precio: $4</div>
           </div>
           &nbsp;
           <div className="item">
             <img  className="img" src={bomba1} alt="Bomba" />
             <div  className="black_text_no_bold">Elimina una pieza del rival</div>
+            <div className="black_text_no_bold">Precio: $6</div>
+
           </div>
           &nbsp;
           <div className="item">
             <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
             <div  className="black_text_no_bold">Quita puntos al rival elegido</div>
+            <div className="black_text_no_bold">Precio: $8</div>
           </div>
           &nbsp;
           <div className="item">
             <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
             <div  className="black_text_no_bold">Pon un bloque, sin restricciones</div>
+            <div className="black_text_no_bold">Precio: $6</div>
           </div>
           <div className="black_text">
             &nbsp;
