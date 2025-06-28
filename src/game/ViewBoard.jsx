@@ -263,7 +263,7 @@ function PiecesContainer({gameId, userId, token, callback, pieces, setPieces, ro
 
 function PlayersInfo({ players }) {
   return (
-    <div className='players-info'>
+    <div className='players-info general'>
       {players.map(el => makePlayer(el))}
     </div>
   );
@@ -272,7 +272,7 @@ function PlayersInfo({ players }) {
 function currentPiece(piece, rotation, color, callback, turn, setRotation){
   return(turn? piece?
     <div className="curr_container">
-      <div className="curr_piece">
+      <div>
       <img
     // ARREGLAAAR -> if pieza seleccionada ver bien llaves e id
       className={`img${getWidth(piece)} rotated-${rotation} curr_img`}
@@ -486,15 +486,10 @@ function ViewBoard() {
   return (
     <div className="container2">
       <div className="box2 izq" >
-        <div className="black_text">
-        </div>
-        <div className="black_text">
+        <div className="black_text turn">
           {`${player.turn? "Es tu turno": "No es tu turno"}`}
         </div>
-          <div className="black_text">
-              &nbsp;
-        </div>
-        <div  className={`container_${player.color}`}>
+        <div  className={`container_${player.color} my_data`}>
           <div className="black_text_no_bold">
             {`Monedas: ${player.coins}`}
           </div>
@@ -505,35 +500,29 @@ function ViewBoard() {
           {`Power-up: ${player.power_ups != undefined ? player.power_ups: "No"}`}
           </div>
         </div>
-        <div className="black_text">
-              &nbsp;
-        </div>
-        <div className="black_text">
+        <div className="black_text playing power">
               Power ups
         </div>
-        <>
+        <div className="item_container">
           <div className="item">
             <img  className="img" src={dado} alt="Dado" />
             <div  className="black_text_no_bold">Powerup al azar, o ninguno</div>
           </div>
-          &nbsp;
           <div className="item">
             <img  className="img" src={bomba1} alt="Bomba" />
             <div  className="black_text_no_bold">Elimina una pieza del rival</div>
           </div>
-          &nbsp;
           <div className="item">
             <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
             <div  className="black_text_no_bold">Quita puntos al rival elegido</div>
           </div>
-          &nbsp;
           <div className="item">
             <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
             <div  className="black_text_no_bold">Pon un bloque, sin restricciones</div>
           </div>
+          <div>
           <div className="black_text">
-            &nbsp;
-          <div className="black_text" >
+          <div className="black_text  playing" >
                 Estado: {game.state}
             </div>
           </div>
@@ -549,12 +538,14 @@ function ViewBoard() {
                 Ver ganadores
             </Link>
           )}
+          </div>
 
-          <div>
+          <div className="inv"> 
             {message && <p className="black_text">{message}</p>}
           </div>
-        </>
+        </div>
       </div>
+      <div className="not_izq">
       <div className="box2 center">
       <Board
         gameId={gameId}
@@ -574,7 +565,6 @@ function ViewBoard() {
         <div className="black_text">
             Rivales:
         </div>
-        &nbsp;
         <PlayersInfo players={players} />
         <div className="black_text">
             Pieza actual:
@@ -584,6 +574,7 @@ function ViewBoard() {
       <div className="box2 der2">
         <PiecesContainer gameId={gameId} userId={userId} token={token} callback={addPiece} pieces={pieces} setPieces={setPieces} rotation={"U"} />
 
+      </div>
       </div>
     </div>);
 
