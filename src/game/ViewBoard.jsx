@@ -108,6 +108,8 @@ const basePieces = {
   "5K": [["X", "X", "-"], ["-", "X", "X"], ["-", "X", "-"]],
 };
 
+
+
 function Board({ gameId, token, callback, board, setBoard, refreshTrigger, highlightCells, setHighlightCells, piece, rotation, player}) {
 
   useEffect(() => {
@@ -352,6 +354,9 @@ function rotatePiece(structure, direction) {
 
   return structure;
 }
+
+const rotated5I = rotatePiece(basePieces["5I"], "R");
+basePieces["5I"] = rotated5I;
 
 function getAffectedCells(position, pieceName, rotation) {
   if (!pieceName || !position) return [];
@@ -631,7 +636,7 @@ function ViewBoard() {
             new_board[r][c] = color;
           }
 
-          setBoard(new_board);
+          //setBoard(new_board);
 
           setPiece(null);  // resetea la pieza
           //SEGUNDO FETCH PLAYER
@@ -643,7 +648,7 @@ function ViewBoard() {
         })
         .then(res => res.json())
         .then(updatedPlayer => {
-          setPlayer(updatedPlayer); // actualizar estado
+          //setPlayer(updatedPlayer); // actualizar estado
 
           // TERCER FETCH PIECES
           return fetch(`${import.meta.env.VITE_BACKEND_URL}/mechanics/pieces/${updatedPlayer.id}`, {
