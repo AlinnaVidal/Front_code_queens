@@ -486,10 +486,11 @@ function ViewBoard() {
   return (
     <div className="container2">
       <div className="box2 izq" >
-        <div className="black_text turn">
+        <div className="my_data">
+        <div className="black_text margin">
           {`${player.turn? "Es tu turno": "No es tu turno"}`}
         </div>
-        <div  className={`container_${player.color} my_data`}>
+        <div  className={`container_${player.color}`}>
           <div className="black_text_no_bold">
             {`Monedas: ${player.coins}`}
           </div>
@@ -500,7 +501,9 @@ function ViewBoard() {
           {`Power-up: ${player.power_ups != undefined ? player.power_ups: "No"}`}
           </div>
         </div>
-        <div className="black_text playing power">
+        </div>
+        <div className="power_container">
+        <div className="black_text playing margin">
               Power ups
         </div>
         <div className="item_container">
@@ -520,15 +523,16 @@ function ViewBoard() {
             <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
             <div  className="black_text_no_bold">Pon un bloque, sin restricciones</div>
           </div>
-          <div>
-          <div className="black_text">
-          <div className="black_text  playing" >
+          </div>
+          </div>
+          <div className="black_text finish_button">
+          <div className="black_text margin playing" >
                 Estado: {game.state}
             </div>
-          </div>
+          
 
           {game.state === "playing" &&(
-            <div className="button" onClick={() => surrender(player.id)}>
+            <div className="button black_text_no_bold" onClick={() => surrender(player.id)}>
                 Rendirse
             </div>
           )}
@@ -543,7 +547,7 @@ function ViewBoard() {
           <div className="inv"> 
             {message && <p className="black_text">{message}</p>}
           </div>
-        </div>
+        
       </div>
       <div className="not_izq">
       <div className="box2 center">
