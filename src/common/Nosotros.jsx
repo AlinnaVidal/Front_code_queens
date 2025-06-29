@@ -5,7 +5,6 @@ import valeImg from "./assets/fotovale.jpeg";
 import floImg from "./assets/fotoflo.jpg";
 import aliImg from "./assets/fotoali.jpg";
 
-
 export default function AboutUs() {
   useEffect(() => {
     showSlides(1);
