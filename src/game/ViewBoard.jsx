@@ -759,7 +759,6 @@ function ViewBoard() {
         .catch(err => console.error("Error en la secuencia de movimientos:", err));
     }
   }
-
 }
 
 export default ViewBoard;
