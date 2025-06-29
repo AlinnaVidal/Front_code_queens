@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { showSlides, plusSlides, currentSlide } from "./slider.js";
 import "./App.css";
-import valeImg from "./assets/fotovale.jpeg";
-import floImg from "./assets/fotoflo.jpg";
-import aliImg from "./assets/fotoali.jpg";
+import valeImg from "../assets/fotovale.jpeg";
+import floImg from "../assets/fotoflo.jpg";
+import aliImg from "../assets/fotoali.jpg";
 
 export default function AboutUs() {
   useEffect(() => {
