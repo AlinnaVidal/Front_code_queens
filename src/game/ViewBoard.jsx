@@ -401,6 +401,25 @@ function ViewBoard() {
 
   const [highlightCells, setHighlightCells] = useState([]);
 
+  function buy_powerup(powerup_id){
+  console.log(player.power_ups)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/buy-powerup/${player.id}/${powerup_id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+  })
+    .then(res => {
+      if (!res.ok) throw new Error(`Error ${res.status}`);
+      return res.json();
+    })
+  console.log("power comprado");
+  
+
+
+}
+
   async function surrender( player_id) {
     try {
       const response = await fetch(
@@ -507,19 +526,19 @@ function ViewBoard() {
         </div>
         <div className="item_container">
           <div className="item">
-            <img  className="img" src={dado} alt="Dado" />
+            <img  className="img" src={dado} alt="Dado" onClick={() => buy_powerup(5)} />
             <div  className="black_text_no_bold">Powerup al azar, o ninguno. <br />Precio: $4</div>
           </div>
           <div className="item">
-            <img  className="img" src={bomba1} alt="Bomba" />
+            <img  className="img" src={bomba1} alt="Bomba" onClick={() => buy_powerup(2)}  />
             <div  className="black_text_no_bold">Elimina una pieza del rival. <br />Precio: $6</div>
           </div>
           <div className="item">
-            <img  className="img" src={flechaAbajo} alt="Flecha Abajo" />
+            <img  className="img" src={flechaAbajo} alt="Flecha Abajo" onClick={() => buy_powerup(4)} />
             <div  className="black_text_no_bold">Quita puntos al rival elegido. <br />Precio: $8</div>
           </div>
           <div className="item">
-            <img  className="img"src={bloqueEspecial} alt="Bloque Especial" />
+            <img  className="img"src={bloqueEspecial} alt="Bloque Especial"  onClick={() => buy_powerup(3)}/>
             <div  className="black_text_no_bold">Pon un bloque, sin restricciones. <br />Precio: $6</div>
           </div>
           </div>
@@ -603,6 +622,86 @@ function ViewBoard() {
 
   function addBoard(position) {
     let player_id = player.id;
+     if (player.power_up_id === 4) {
+      console.log("tienes el poweup");
+      const [row, col] = position;
+      const box = board[row][col];
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/players/game/${gameId}/${userId}`)
+        .then(res => res.json())
+        .then(players => {
+          var color
+          if(box == "R"){
+            color = "red"
+          }
+          if(box == "O"){
+            color = "orange"
+          }
+          if(box == "G"){
+            color = "green"
+          }
+          if(box == "B"){
+            color = "blue"
+          }
+          const rival = players.find(p => p.color === color);
+
+          if (!rival) {
+            console.warn("No se encontró rival con color:", color);
+            return;
+          }
+
+          const rivalid = rival.id;
+          console.log("al rival:", rivalid);
+          console.log("box:", box);
+
+          return fetch(`${import.meta.env.VITE_BACKEND_URL}/use-powerup-quitar-puntos/${player.id}/${rivalid}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
+            },
+          });
+        })
+        .catch(err => console.error("Error al obtener jugadores:", err));
+    }
+    else if (player.power_up_id === 2) {
+      console.log("tienes el powerup bomba");
+      const [row, col] = position;
+      const box = board[row][col];
+      
+    console.log("voy a mandar x", col)
+    console.log("voy a mandar y", row)
+    return fetch(`${import.meta.env.VITE_BACKEND_URL}/use-powerup-bomba/${player.id}/${col}/${row}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+
+    
+    });
+    
+
+    }
+        else if (player.power_up_id === 3) {
+      console.log("tienes el powerup pieza especial");
+      const [row, col] = position;
+      const box = board[row][col];
+      
+    console.log("voy a mandar x", col)
+    console.log("voy a mandar y", row)
+    return fetch(`${import.meta.env.VITE_BACKEND_URL}/use-powerup-pieza-especial/${player.id}/${col}/${row}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+
+    
+    });
+    
+
+    }
+      
     if (piece != null) {
       const affected = getAffectedCells(position, piece, rotation);
       setHighlightCells(affected);
