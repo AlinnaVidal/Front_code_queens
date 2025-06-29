@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { showSlides, plusSlides, currentSlide } from "./slider.js";
 import "./App.css";
+import valeImg from "./assets/fotovale.jpeg";
+import floImg from "./assets/fotoflo.jpg";
+import aliImg from "./assets/fotoali.jpg";
+
 
 export default function AboutUs() {
   useEffect(() => {
@@ -24,15 +28,15 @@ export default function AboutUs() {
           <h3>Integrantes</h3>
           <div className="integrantes-container">
             <div className="integrante">
-              <img src="src/assets/fotovale.jpeg" alt="Valentina Juri" />
+              <img src={valeImg} alt="Valentina Juri" />
               <p>Valentina Juri</p>
             </div>
             <div className="integrante">
-              <img src="src/assets/fotoflo.jpg" alt="Florencia Schiappacasse" />
+              <img src={floImg} alt="Florencia Schiappacasse" />
               <p>Florencia Schiappacasse</p>
             </div>
             <div className="integrante">
-              <img src="src/assets/fotoali.jpg" alt="Alinna Vidal" />
+              <img src={aliImg} alt="Alinna Vidal" />
               <p>Alinna Vidal</p>
             </div>
           </div>
