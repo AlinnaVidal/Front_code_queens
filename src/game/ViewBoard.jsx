@@ -401,9 +401,8 @@ function ViewBoard() {
 
   const [highlightCells, setHighlightCells] = useState([]);
 
-  function buy_powerup(powerup_id){
-  console.log(player.power_ups)
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/buy-powerup/${player.id}/${powerup_id}`, {
+ function buy_powerup(powerup_id) {
+  fetch(`${import.meta.env.VITE_BACKEND_URL}/buy-powerup/${player.id}/${powerup_id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -414,11 +413,27 @@ function ViewBoard() {
       if (!res.ok) throw new Error(`Error ${res.status}`);
       return res.json();
     })
-  console.log("power comprado");
-  
+    .then(data => {
+      console.log("Power-up comprado:", data);
 
-
+      // Refrescar el jugador para ver los cambios
+      return fetch(`${import.meta.env.VITE_BACKEND_URL}/players/from/${userId}/${gameId}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+    })
+    .then(res => res.json())
+    .then(updatedPlayer => {
+      setPlayer(updatedPlayer);
+      setMessage("¡Power-up comprado exitosamente!");
+    })
+    .catch(err => {
+      console.error("Error al comprar power-up:", err);
+      setMessage("No se pudo comprar el power-up. ¿Tienes suficientes monedas?");
+    });
 }
+
 
   async function surrender( player_id) {
     try {
@@ -682,7 +697,7 @@ function ViewBoard() {
     
 
     }
-        else if (player.power_up_id === 3) {
+      else if (player.power_up_id === 3) {
       console.log("tienes el powerup pieza especial");
       const [row, col] = position;
       const box = board[row][col];
