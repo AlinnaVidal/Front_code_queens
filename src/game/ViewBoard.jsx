@@ -515,8 +515,16 @@ function ViewBoard() {
             {`Puntos: ${player.points} `}
           </div>
           <div className="black_text_no_bold">
-            {`Power-up: ${player.power_ups != undefined ? player.power_ups: "No"}`}
-          </div>
+  {`Power-up: ${
+    {
+      5: "Dado",
+      2: "Bomba",
+      4: "Quitar puntos",
+      3: "Bloque especial"
+    }[player.power_up_id] || "No"
+  }`}
+</div>
+
         </div>
         </div>
         <div className="power_container">
